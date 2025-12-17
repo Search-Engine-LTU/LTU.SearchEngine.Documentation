@@ -79,7 +79,13 @@ FRQ-3003 & The query shall support optional characters using the OR operator. \n
 FRQ-3005 & Results of queries must be paginated when more than 10 results are found. & \\
 FRQ-3006 & The results should contain the headline of the context found. & \\
 FRQ-3007 & The results should contain a snippet with keywords highlighted. & \\
-FRQ-3008 & Search results must be ranked by relevance. & \\
+FRQ-3008 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
+- Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. \newline
+- When TF/IDF scores are equal, documents with higher PageRank shall appear first. \newline
+
+Example:    For the query "cat dog", a document containing both "cat" and "dog" with high term frequency 
+            and appearing on a highly linked page shall be ranked above a document containing only "cat" 
+            or appearing on a low-ranked page. & \\
 
 
 % --- USER INTERFACE (4xxx) ---
