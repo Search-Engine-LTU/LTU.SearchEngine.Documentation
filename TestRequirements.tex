@@ -69,8 +69,11 @@ FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries
 \midrule
 \multicolumn{3}{l}{\textbf{\textit{Searching (3000 Series)}}} \\
 \midrule
-FRQ-3002 & A query must be able to match characters strictly (AND), is the option to do so is chosen. & \\
-FRQ-3003 & A query must have an option to include non-mandatory characters (OR). & \\
+FRQ-3001 & A query must be able to match characters strictly if no other option is chosen. & \\
+FRQ-3002 & A query must be able to match more then one set of characters, if the option (AND) to do so is chosen. & \\
+FRQ-3003 & The query shall support optional characters using the OR operator. 
+            Example: If the query searches for "cat OR dog", results must 
+            include items containing either "cat" or "dog".                         & \\
 FRQ-3004 & Use same syntax as other providers (standard search syntax). & \\
 FRQ-3005 & Results of queries must be paginated when more than 10 results are found. & \\
 FRQ-3006 & The results should contain the headline of the context found. & \\
