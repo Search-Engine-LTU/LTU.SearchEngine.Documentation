@@ -40,3 +40,20 @@ To avoid error messages regarding "Perl" or "BibTeX" and to ensure the PDF build
 "latex-workshop.latex.autoBuild.run": "onSave",
 "latex-workshop.latex.autoClean.run": "never",
 "latex-workshop.latex.linting.chktex.enabled": false
+```
+### 3. Workflow
+Open the file LTU_Search_Engine.tex.
+
+Make your changes to the text.
+
+Press Ctrl + S (Save).
+
+Wait a few seconds. A new PDF will be generated automatically.
+
+To view the PDF side-by-side with the code: Click the TeX icon in the left menu -> View LaTeX PDF -> View in VS Code tab.
+
+### 4. Git Rules for Documentation
+❌ DO NOT check in: .aux, .log, .out, .bbl (These should be automatically ignored by .gitignore).
+
+✅ ALWAYS check in: The .tex file (source code) AND the .pdf file (so it can be read on GitHub without downloading the repository).
+
