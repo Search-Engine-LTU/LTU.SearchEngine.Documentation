@@ -69,8 +69,7 @@ FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries
 \midrule
 \multicolumn{3}{l}{\textbf{\textit{Searching (3000 Series)}}} \\
 \midrule
-FRQ-3001 & A query containing 2-3 words should return the correct result. & \\
-FRQ-3002 & A query must have an option to match characters strictly (AND). & \\
+FRQ-3002 & A query must be able to match characters strictly (AND), is the option to do so is chosen. & \\
 FRQ-3003 & A query must have an option to include non-mandatory characters (OR). & \\
 FRQ-3004 & Use same syntax as other providers (standard search syntax). & \\
 FRQ-3005 & Results of queries must be paginated when more than 10 results are found. & \\
@@ -113,7 +112,10 @@ NFRQ-6003 & The system shall only index publicly available HTML pages. & \\
 
 % Non-Testable RQ 
 \section{Non-Testable RQ}
-FRQ-2005  The system shall use a clearly defined data structure (e.g., ER diagram). 
+\begin{itemize}
+  \item FRQ-2005 The system shall use a clearly defined data structure (e.g., ER diagram).
+  \item FRQ-3001 A query containing 2-3 words should return the correct result.
+\end{itemize}
 
 
 \end{document}
