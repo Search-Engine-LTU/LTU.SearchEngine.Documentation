@@ -70,16 +70,17 @@ FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries
 \multicolumn{3}{l}{\textbf{\textit{Searching (3000 Series)}}} \\
 \midrule
 FRQ-3001 & A query must be able to match characters strictly if no other option is chosen. & \\
-FRQ-3002 & A query must be able to match more then one set of characters, if the option (AND) to do so is chosen. & \\
-FRQ-3003 & The query shall support optional characters using the OR operator. 
+FRQ-3002 & A query must be able to match more then one set of characters, if the option (AND) is chosen. \newline
+            Example: If the query searches for "cat AND dog", results must include items containing both 
+            "cat" and "dog", and exclude items containing only one of them. & \\
+FRQ-3003 & The query shall support optional characters using the OR operator. \newline
             Example: If the query searches for "cat OR dog", results must 
-            include items containing either "cat" or "dog".                         & \\
-FRQ-3004 & Use same syntax as other providers (standard search syntax). & \\
+            include items containing either "cat", "dog", or both.                         & \\
 FRQ-3005 & Results of queries must be paginated when more than 10 results are found. & \\
 FRQ-3006 & The results should contain the headline of the context found. & \\
 FRQ-3007 & The results should contain a snippet with keywords highlighted. & \\
 FRQ-3008 & Search results must be ranked by relevance. & \\
-FRQ-3009 & The system shall provide a search API for the UI. & \\
+
 
 % --- USER INTERFACE (4xxx) ---
 \midrule
@@ -110,6 +111,7 @@ L-FRQ-5002 & An estimation of the completed query should be suggested (Autocompl
 NFRQ-6001 & A query should take no longer than 10 seconds. & \\
 NFRQ-6002 & The search engine should search the whole LTU-Domain (with exceptions). & \\
 NFRQ-6003 & The system shall only index publicly available HTML pages. & \\
+NFRQ-6004 & The system shall provide a search API for the UI. & \\
 \bottomrule
 \end{longtable}
 
@@ -118,6 +120,7 @@ NFRQ-6003 & The system shall only index publicly available HTML pages. & \\
 \begin{itemize}
   \item FRQ-2005 The system shall use a clearly defined data structure (e.g., ER diagram).
   \item FRQ-3001 A query containing 2-3 words should return the correct result.
+  \item FRQ-3004 Use same syntax as other providers (standard search syntax). 
 \end{itemize}
 
 
