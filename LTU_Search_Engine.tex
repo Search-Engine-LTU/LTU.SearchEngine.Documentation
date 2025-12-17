@@ -13,7 +13,7 @@
 
 \maketitle
 
-\section{Functional Requirements hejhej}
+\section{Functional Requirements}
 
 \renewcommand{\arraystretch}{1.5}
 
@@ -45,15 +45,15 @@
 \midrule
 FRQ-1001 & The system shall crawl web pages starting from a given seed URL. &  Test Crawl starts from provided seed URL \\
 FRQ-1002 & The system shall follow internal links recursively. & \\
-FRQ-1003 & The system shall limit crawling speed (limit the site requests). & \\
+FRQ-1003 & The system shall limit crawling speed max 300 requestsminute (limit the site requests). & \\
 FRQ-1004 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 FRQ-1005 & The system shall restrict crawling to a configurable whitelist of domains. & \\
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & \\
 FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
-FRQ-1008 & Should be built to only search within the LTU-domain, but with expansion in mind. & \\
-FRQ-1009 & The crawler must detect linked PDF files and include them in the index. & \\
-FRQ-1010 & The crawler must not follow/crawl links found inside PDF documents. & \\
-FRQ-1011 & The system must support adding new domains to a whitelist automatically. & \\
+FRQ-1008 & The crawler must only search within the domain specified in the whitelist. & \\
+FRQ-1009 & The system must support adding new domains to a whitelist automatically. & \\
+FRQ-1010 & The crawler must detect linked PDF files and include them in the index. & \\
+FRQ-1011 & The crawler must not follow/crawl links found inside PDF documents. & \\
 
 % --- INDEXING (2xxx) ---
 \midrule
@@ -63,7 +63,7 @@ FRQ-2001 & The system shall extract textual content from HTML pages. & \\
 FRQ-2002 & The system shall store indexed terms together with page references (inverted index). & \\
 FRQ-2003 & The system shall support incremental updates of the index. & \\
 FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & \\
-FRQ-2005 & The system shall use a clearly defined data structure (e.g., ER diagram). & \\
+
 
 % --- SEARCHING (3xxx) ---
 \midrule
@@ -110,5 +110,10 @@ NFRQ-6002 & The search engine should search the whole LTU-Domain (with exception
 NFRQ-6003 & The system shall only index publicly available HTML pages. & \\
 \bottomrule
 \end{longtable}
+
+% Non-Testable RQ 
+\section{Non-Testable RQ}
+FRQ-2005  The system shall use a clearly defined data structure (e.g., ER diagram). 
+
 
 \end{document}
