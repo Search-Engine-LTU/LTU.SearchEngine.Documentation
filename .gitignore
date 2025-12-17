@@ -416,3 +416,18 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# =========================
+# LaTeX (För din kravspec)
+# =========================
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+# Vi låter bli att ignorera *.pdf så att din kravspec syns på GitHub
+# *.pdf
+
+*.bbl
+*.blg
