@@ -1,0 +1,261 @@
+\documentclass[a4paper,11pt]{article}
+
+% --- Settings ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel} % English language
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{parskip}     % Nice spacing between paragraphs
+\usepackage{enumitem}    % For compact lists
+\usepackage{amssymb}
+
+% --- Main Title (Cover Page info) ---
+\title{\textbf{Meeting Notes}}
+\author{Project: LTU Search Engineee}
+\date{} % Keeps the date empty on the title page
+
+\begin{document}
+
+\maketitle
+
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-18} % <--- Change Date Here
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Divide work between members
+\end{enumerate}
+
+\subsection*{Discussion and Notes}
+We focused on dividing the tasks for the search engine project.
+Everyone has been assigned a specific area to research or implement.
+
+\subsection*{Action Items}
+\begin{itemize}
+    \item \textbf{JP:} Query syntax
+    \item \textbf{Emma:} What to include in an index, upload meetingnotes to Git Repository
+    \item \textbf{Linnea:} How to limit crawler rate limit
+    \item \textbf{Cilla:} Investigate different algorithms for searching
+    \item \textbf{Nattarintra:} Test
+\end{itemize}
+
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-17}
+\textbf{Context:} Updated directives from Malte (replaces parts of original spec).
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{1. Technical Requirements (Scope)}
+\begin{itemize}
+    \item \textbf{Database:} 
+    \begin{itemize}
+        \item Free choice (Postgres, MariaDB, SQLite are all okay).
+        \item \textit{Important:} Avoid MS SQL Server (due to Linux compatibility issues). Choose something easy to install/run.
+        \item Storage: 512 GB is available on the VM, but we likely only need a few hundred MB.
+    \end{itemize}
+    
+    \item \textbf{Web Crawler Behavior:}
+    \begin{itemize}
+        \item \textbf{Whitelist:} Strict. Only crawl \texttt{ltu.se} and specific links provided. Do \textbf{not} follow external links (e.g., Facebook, Instagram).
+        \item \textbf{Robots.txt:} Generally respect it, \textit{unless} it blocks "contacts" or "users". We must index contact pages so staff can be found.
+        \item \textbf{Content:} Skip images to reduce complexity. Focus on text.
+        \item \textbf{Rate Limiting:} No hard limit, but "don't DDoS". A few hundred requests at a time is acceptable.
+    \end{itemize}
+
+    \item \textbf{Search Algorithm \& Ranking:}
+    \begin{itemize}
+        \item Use a combination of \textbf{PageRank} (link popularity) and \textbf{Word Frequency}.
+        \item We are encouraged to experiment with algorithms to find the best results.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{2. Documentation \& Requirements (Milestone 0)}
+\begin{itemize}
+    \item \textbf{Requirements Document:} 
+    \begin{itemize}
+        \item Add a \textbf{third column} for "Test Cases". (Be specific: How do we prove the requirement is met?)
+        \item Remove "Test Coverage" from the requirements doc (keep it in code, but not as a functional requirement).
+    \end{itemize}
+    \item \textbf{Diagrams:} Create initial drafts for Class Diagram, ER-Diagram (Database), and UML Diagram. Share these early ("Share everything").
+    \item \textbf{Tools:} Documentation in LaTeX, Code in Git.
+\end{itemize}
+
+\subsection*{3. Project Structure \& Team Roles}
+Total team size: 5 members.
+\begin{itemize}
+    \item \textbf{1 Lead Developer} (Responsible for overall architecture).
+    \item \textbf{2 Frontend Developers}.
+    \item \textbf{2 Backend Developers}.
+\end{itemize}
+\textbf{Workflow:} Use Code Reviews and Pull Requests (PR). Clear separation of tasks between Frontend and Backend.
+
+\subsection*{4. Reporting \& Next Steps}
+\begin{itemize}
+    \item \textbf{Weekly Report:} Send an email \textbf{every Friday}.
+    \begin{itemize}
+        \item Content: "Activity report" (what we did) and "Next to-dos" (what we will do).
+        \item \textit{Note:} Send one immediately before the holidays.
+    \end{itemize}
+    \item \textbf{Next Meeting:} January 8th at 15:00.
+\end{itemize}
+
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-16} % <--- Change Date Here
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Meeting for preparation 
+\end{enumerate}
+
+\subsection*{Discussion and Notes}
+We had a shorter meeting to prepare questions regarding tomorrows meeting with Malte.
+
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+\section*{Meeting: 2025-12-15} % <--- Change Date Here
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Meeting for preparation 
+\end{enumerate}
+
+\subsection*{Discussion and Notes}
+We had a shorter meeting to prepare questions regarding tomorrows meeting with Malte.
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-11} % <--- Change Date Here
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Daily meeting we discussed what to focus on, Jean-Paul set up a Req document and we started to fill it up whit Test and priorities them. 
+\end{enumerate}
+
+\subsection*{Discussion and Notes}
+We had a shorter meeting to prepare questions regarding tomorrows meeting with Malte.
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+
+
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-10 (Project Kick-off)}
+\textbf{Attendees:} Team and Malte (Client)
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Review of project scope and limitations
+    \item Technical requirements clarification
+    \item Expectations for Milestone 0
+\end{enumerate}
+
+\subsection*{Decisions \& Directives (Summary)}
+
+\subsubsection*{1. Scope \& Crawler Behavior}
+\begin{itemize}
+    \item \textbf{Whitelist:} Strictly \texttt{*.ltu.se}. Do not follow external links (Facebook, etc.). Future domains like \texttt{islab.se} might be added later.
+    \item \textbf{Robots.txt:} strictly adhere to it for Milestone 0. (Exceptions for contact pages might be added later).
+    \item \textbf{Dynamic Content:} LTU's dynamic content is server-side rendered, so no "headless browser" is required.
+    \item \textbf{PDFs:} Crawler must detect PDF links. Indexing the \textit{content} of PDFs is optional (nice-to-have).
+\end{itemize}
+
+\subsubsection*{2. Search Functionality}
+\begin{itemize}
+    \item \textbf{Queries:} Optimized for simple queries (2--3 words). Ranking priority: All terms $>$ Some terms $>$ One term.
+    \item \textbf{Pagination:} Required (e.g., 10, 20 results per page).
+    \item \textbf{Performance:} Response time should be under 10 seconds.
+    \item \textbf{Optional features:} Wildcards (*), category filters, and boolean operators are \textit{not} mandatory.
+\end{itemize}
+
+\subsubsection*{3. Technology \& Deployment}
+\begin{itemize}
+    \item \textbf{UI:} Plain HTML/CSS/JS is perfectly acceptable. No complex frameworks (React/Vue) needed unless desired.
+    \item \textbf{Deployment:} Local execution is enough. No server deployment required yet.
+\end{itemize}
+
+\subsection*{Deliverables for Milestone 0}
+\begin{itemize}
+    \item \textbf{Requirements Document:} Must include Stakeholder requirements, Functional requirements, and Non-functional requirements.
+    \item \textbf{Diagrams:} UML Class diagram + ER Diagram (Database).
+\end{itemize}
+
+% ==========================================
+%           MEETING END
+% ==========================================
+
+/newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2025-12-09} % <--- Change Date Here
+
+\textbf{Attendees:} \\
+Emma, Cilla, Linnea, Jean-Paul, Nattarintra
+
+\subsection*{Agenda}
+\begin{enumerate}[noitemsep]
+    \item Get to know eachother
+    \item Send a mail to Malte
+    \item Set up a Github project
+\end{enumerate}
+
+\subsection*{Discussion and Notes}
+We had a presentation round and talked about the project and sent a email to Malte for scheduling a meeting. Finally we set up a Github Project
+
+% ==========================================
+%           MEETING END
+% ==========================================
+\end{document}
