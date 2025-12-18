@@ -69,19 +69,62 @@ FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries
 \midrule
 \multicolumn{3}{l}{\textbf{\textit{Searching (3000 Series)}}} \\
 \midrule
-FRQ-3001 & A query must be able to match characters strictly if no other option is chosen. & \\
-FRQ-3002 & A query must be able to match more then one set of characters, if the option (AND) is chosen. \newline
-            Example: If the query searches for "cat AND dog", results must include items containing both 
-            "cat" and "dog", and exclude items containing only one of them. & \\
-FRQ-3003 & The query shall support optional characters using the OR operator. \newline
-            Example: If the query searches for "cat OR dog", results must 
-            include items containing either "cat", "dog", or both.                         & \\
-FRQ-3004 & Results of queries must be paginated when more than 10 results are found. & \\
-FRQ-3005 & The results should contain the headline of the context found. & \\
-FRQ-3006 & The results should contain a snippet with keywords highlighted. & \\
-FRQ-3007 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
-- Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. \newline
-- When TF/IDF scores are equal, documents with higher PageRank shall appear first. \newline
+FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g., "cats and dogs") and operators (e.g., "cats" AND "dogs").& \\
+FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& \\
+FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& \\
+
+FRQ-3004 & Boolean Operator Support. The system shall support Boolean operators for combining query terms (e.g., "cats" AND "dogs", "cats" OR "dogs").& \\
+FRQ-3005 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
+
+FRQ-3006 & OR Operator. The system shall support the OR operator to match documents containing at least one of the specified terms. \newline
+            (e.g, If the query searches for ”cat OR dog”, results must include items containing either ”cat”, ”dog”, or both.).& \\
+FRQ-3007 & Default OR Behavior. If no Boolean operator is specified between two terms, the system shall treat the operator as OR by default. & \\
+FRQ-3008 & OR Symbol Alternative. The system shall allow the symbol \texttt{||} as an alternative to the OR operator. & \\
+
+FRQ-3009 & AND Operator. The system shall support the AND operator to match documents containing all specified terms. \newline
+            (e.g, If the query searches for ”cat AND dog AND fish”, results must include items containing all terms (”cat”, ”dog”, and fish).). & \\
+FRQ-3010 & AND Symbol Alternative. The system shall allow the symbol \texttt{\&\&} as an alternative to the AND operator. & \\
+
+FRQ-3011 & NOT Operator. The system shall support the NOT operator to exclude documents containing a specified term. \newline
+            (e.g, If the query searches for ”cat NOT dog”, results must include items containing ”cat” and does not include ”dog”.). & \\
+FRQ-3012 & NOT Symbol Alternative. The system shall allow the symbol ! as an alternative to the NOT operator. & \\
+FRQ-3013 & NOT Usage Constraint. The system shall reject queries where the NOT operator is used without a preceding positive term.\newline
+            (e.g, If the query searches for ”NOT dog”, then an error message shall be displayed.). & \\
+
+FRQ-3014 & Required Term Operator. The system shall support the required (+) operator, indicating that the term must exist in a matching document. \newline
+            (e.g, If the query searches for ”+"are cats" dog”, results must include items containing ”are cats” and can but does not have to contain ”dog”). & \\
+
+FRQ-3015 & Prohibited Term Operator. The system shall support the prohibit (-) operator, indicating that documents containing the specified term shall be excluded. \newline
+            (e.g, If the query searches for ”cat -dog, results should include items containing ”cat” but not ”dog”.). & \\
+
+FRQ-3016 & Grouping with Parentheses. The system shall support grouping of query expressions using parentheses to control operator precedence. \newline
+            (e.g, If the query searches for ("cat" AND "dog") OR "fish", results should include items containing either both ”cat” and "dog", "fish" or both clauses.). & \\
+
+FRQ-3017 & Date Range Queries, inclusive. The system shall support date range queries using inclusive bounds (e.g., date:[1938 TO 1944]). \newline
+            (e.g, If the query searches for date:[1938 TO 1944], results should include items with dates from and including 1938 to and inclusive 1944.) & \\
+FRQ-3018 & Date Range Queries, exclusive. The system shall support date range queries using exclusive bounds (e.g., date:{1938 TO 1944} ). \newline
+            (e.g, If the query searches for date:{1938 TO 1944}, results should include items with dates from and excluding 1938 to and excluding 1944.) & \\
+
+FRQ-3019 & Text Range Queries, inclusive. The system shall support text range queries using inclusive bounds (e.g., title:[anger TO hatred]). \newline
+            (e.g, If the query searches for title:[anger TO hatred], results should include items with titles that are alphabetically grater and including "anger" to titles alphabetically less than and inclusive "hatred".) & \\
+FRQ-3020 & Text Range Queries, exclusive. The system shall support text range queries using exclusive bounds (e.g., title:{anger TO hatred}). \newline
+            (e.g, If the query searches for title:{anger TO hatred}, results should include items with titles that are alphabetically grater and excluding "anger" to titles alphabetically less than and excluding "hatred".) & \\
+
+FRQ-3021 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
+FRQ-3022 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
+
+
+                       & \\
+FRQ-3023 & Results of queries must be paginated when more than 10 results are found. & \\
+FRQ-3024 & The results should contain the headline of the context found. & \\
+FRQ-3025 & The results should contain a snippet with keywords highlighted. & \\
+FRQ-3026 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
+\begin{itemize}
+ \item Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. 
+ \item When TF/IDF scores are equal, documents with higher PageRank shall appear first. 
+\end{itemize}
+
 
 Example:    For the query "cat dog", a document containing both "cat" and "dog" with high term frequency 
             and appearing on a highly linked page shall be ranked above a document containing only "cat" 
