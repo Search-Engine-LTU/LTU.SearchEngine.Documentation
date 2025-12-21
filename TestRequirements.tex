@@ -3,6 +3,7 @@
 \usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{xcolor}
 \usepackage[a4paper, margin=2cm]{geometry} % Minskade marginalen något för att få mer plats
 
 \title{Requirements Specification - LTU Search Engine}
@@ -48,7 +49,7 @@ FRQ-1002 & The system shall follow internal links recursively. & \\
 FRQ-1003 & The system shall limit crawling speed to a configurable maximum average request rate per host. & \\
 FRQ-1012 & The crawler shall enforce a configurable maximum number of concurrent HTTP requests per target host (\texttt{maxConcurrencyPerHost}). 
 At no time shall the number of in-flight requests to a single host exceed this limit. & \\
-FRQ-1013 & The crawler shall enforce a configurable minimum delay (\texttt{minDelayMs}) between consecutive HTTP requests to the same host. & \\
+FRQ-1013 & The crawler shall enforce a configurable minimum delay (\texttt{minDelayMs}) between consecutive HTTP requests to the same host. {\color{red} Clarify what you mean by host - Domain, IP, \dots} & \\
 FRQ-1014 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerHost}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
 FRQ-1004 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
