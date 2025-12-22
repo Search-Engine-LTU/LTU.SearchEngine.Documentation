@@ -113,26 +113,17 @@ FRQ-3015 & Prohibited Term Operator. The system shall support the prohibit (-) o
 FRQ-3016 & Grouping with Parentheses. The system shall support grouping of query expressions using parentheses to control operator precedence. \newline
             (e.g, If the query searches for ("cat" AND "dog") OR "fish", results should include items containing either both ”cat” and "dog", "fish" or both clauses.). & \\
 
-FRQ-3017 & Date Range Queries, inclusive. The system shall support date range queries using inclusive bounds (e.g., date:[1938 TO 1944]). \newline
-            (e.g, If the query searches for date:[1938 TO 1944], results should include items with dates from and including 1938 to and inclusive 1944.) & \\
-FRQ-3018 & Date Range Queries, exclusive. The system shall support date range queries using exclusive bounds (e.g., date:{1938 TO 1944} ). \newline
-            (e.g, If the query searches for date:{1938 TO 1944}, results should include items with dates from and excluding 1938 to and excluding 1944.) & \\
 
-FRQ-3019 & Text Range Queries, inclusive. The system shall support text range queries using inclusive bounds (e.g., title:[anger TO hatred]). \newline
-            (e.g, If the query searches for title:[anger TO hatred], results should include items with titles that are alphabetically grater and including "anger" to titles alphabetically less than and inclusive "hatred".) & \\
-FRQ-3020 & Text Range Queries, exclusive. The system shall support text range queries using exclusive bounds (e.g., title:{anger TO hatred}). \newline
-            (e.g, If the query searches for title:{anger TO hatred}, results should include items with titles that are alphabetically grater and excluding "anger" to titles alphabetically less than and excluding "hatred".) & \\
-
-FRQ-3021 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
+FRQ-3017 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
             Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
-FRQ-3022 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
+FRQ-3018 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
                        & \\
-FRQ-3023 & Results of queries must be paginated when more than 10 results are found. & \\
-FRQ-3024 & The results should contain the headline of the context found. & \\
-FRQ-3025 & The results should contain a snippet with keywords highlighted. & \\
-FRQ-3026 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
+FRQ-3019 & Results of queries must be paginated when more than 10 results are found. & \\
+FRQ-3020 & The results should contain the headline of the context found. & \\
+FRQ-3021 & The results should contain a snippet with keywords highlighted. & \\
+FRQ-3022 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
 \begin{itemize}
  \item Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. 
  \item When TF/IDF scores are equal, documents with higher PageRank shall appear first. 
