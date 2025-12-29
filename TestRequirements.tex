@@ -86,29 +86,32 @@ FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g.
 FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& \\
 FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& \\
 
-FRQ-3004 & Boolean Operator Support. The system shall support Boolean operators for combining query terms (e.g., "cats" AND "dogs", "cats" OR "dogs").& \\
 FRQ-3005 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
 
-FRQ-3006 & OR Operator. The system shall support the OR operator to match documents containing at least one of the specified terms. \newline
-            (e.g, If the query searches for ”cat OR dog”, results must include items containing either ”cat”, ”dog”, or both.).& \\
-FRQ-3007 & Default OR Behavior. If no Boolean operator is specified between two terms, the system shall treat the operator as OR by default. & \\
-FRQ-3008 & OR Symbol Alternative. The system shall allow the symbol \texttt{||} as an alternative to the OR operator. & \\
+FRQ-3006 & Boolean OR Logic. The system shall support the disjunctive operator to match documents containing at least one specified term. \newline
+Syntax: \newline
+1. Keyword: OR (case-sensitive) \newline
+2. Symbol: \texttt{||} \newline
+3. Implicit: Whitespace between terms implies OR (Default behavior).& \\
 
-FRQ-3009 & AND Operator. The system shall support the AND operator to match documents containing all specified terms. \newline
-            (e.g, If the query searches for ”cat AND dog AND fish”, results must include items containing all terms (”cat”, ”dog”, and fish).). & \\
-FRQ-3010 & AND Symbol Alternative. The system shall allow the symbol \texttt{\&\&} as an alternative to the AND operator. & \\
+FRQ-3009 & Boolean AND Logic. The system shall support the conjunctive operator to match documents containing all specified terms.
 
-FRQ-3011 & NOT Operator. The system shall support the NOT operator to exclude documents containing a specified term. \newline
-            (e.g, If the query searches for ”cat NOT dog”, results must include items containing ”cat” and does not include ”dog”.). & \\
-FRQ-3012 & NOT Symbol Alternative. The system shall allow the symbol ! as an alternative to the NOT operator. & \\
-FRQ-3013 & NOT Usage Constraint. The system shall reject queries where the NOT operator is used without a preceding positive term.\newline
-            (e.g, If the query searches for ”NOT dog”, then an error message shall be displayed.). & \\
+Syntax:
+
+1. Keyword: AND (case-sensitive)
+
+2. Symbol: \texttt{\&\&} & \\
+
+
 
 FRQ-3014 & Required Term Operator. The system shall support the required (+) operator, indicating that the term must exist in a matching document. \newline
             (e.g, If the query searches for ”+"are cats" dog”, results must include items containing ”are cats” and can but does not have to contain ”dog”). & \\
 
-FRQ-3015 & Prohibited Term Operator. The system shall support the prohibit (-) operator, indicating that documents containing the specified term shall be excluded. \newline
-            (e.g, If the query searches for ”cat -dog, results should include items containing ”cat” but not ”dog”.). & \\
+FRQ-3011 & Exclusion Logic (NOT). The system shall support operators to exclude documents containing specific terms. \newline
+Syntax: \newline
+1. Keyword: NOT (case-sensitive) \newline
+2. Symbol: ! or - \newline
+Constraint: The exclusion operator must be preceded by a positive term (e.g., "cat -dog"). Standalone exclusion queries shall return an error or zero results. & \\
 
 FRQ-3016 & Grouping with Parentheses. The system shall support grouping of query expressions using parentheses to control operator precedence. \newline
             (e.g, If the query searches for ("cat" AND "dog") OR "fish", results should include items containing either both ”cat” and "dog", "fish" or both clauses.). & \\
