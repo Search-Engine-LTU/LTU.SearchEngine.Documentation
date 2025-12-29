@@ -46,20 +46,20 @@
 \midrule
 FRQ-1001 & The system shall crawl web pages starting from a given seed URL. & \\
 FRQ-1002 & The system shall follow internal links recursively. & \\
-FRQ-1003 & The system shall limit crawling speed to a configurable maximum average request rate per host. & \\
-FRQ-1012 & The crawler shall enforce a configurable maximum number of concurrent HTTP requests per target host (\texttt{maxConcurrencyPerHost}). 
-At no time shall the number of in-flight requests to a single host exceed this limit. & \\
-FRQ-1013 & The crawler shall enforce a configurable minimum delay (\texttt{minDelayMs}) between consecutive HTTP requests to the same host. {\color{red} Clarify what you mean by host - Domain, IP, \dots} & \\
+
+
+FRQ-1013 & Domain-based crawling and rate limiting. \newline
+The crawler shall restrict all crawling to domains explicitly listed in a configurable domain whitelist.\newline
+The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
+The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
+
 FRQ-1014 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerHost}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
 FRQ-1004 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
-FRQ-1005 & The system shall restrict crawling to a configurable whitelist of domains. & \\
 
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & \\
 
 FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
-
-FRQ-1008 & The crawler must only search within the domain specified in the whitelist. & \\
 
 FRQ-1009 & The system must support adding new domains to a whitelist automatically. & \\
 
