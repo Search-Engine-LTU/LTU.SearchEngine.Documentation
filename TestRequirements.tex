@@ -53,7 +53,7 @@ The crawler shall restrict all crawling to domains explicitly listed in a config
 The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
 The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
 
-FRQ-1014 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerHost}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
+FRQ-1014 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
 FRQ-1004 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
