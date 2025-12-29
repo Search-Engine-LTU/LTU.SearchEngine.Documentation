@@ -48,24 +48,25 @@ FRQ-1001 & The system shall crawl web pages starting from a given seed URL. & \\
 FRQ-1002 & The system shall follow internal links recursively. & \\
 
 
-FRQ-1013 & Domain-based crawling and rate limiting. \newline
+FRQ-1003 & Domain-based crawling and rate limiting. \newline
 The crawler shall restrict all crawling to domains explicitly listed in a configurable domain whitelist.\newline
 The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
 The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
 
-FRQ-1014 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
-FRQ-1004 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
+FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & \\
 
 FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
 
-FRQ-1009 & The system must support adding new domains to a whitelist automatically. & \\
+FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & \\
 
-FRQ-1010 & The crawler must detect linked PDF files and include them in the index. & \\
+FRQ-1009 & The crawler must detect linked PDF files and include them in the index. & \\
 
-FRQ-1011 & The crawler must not follow/crawl links found inside PDF documents. & \\
+FRQ-1010 & The crawler must not follow/crawl links found inside PDF documents. & \\
+\newpage
 
 
 % --- INDEXING (2xxx) ---
@@ -86,47 +87,44 @@ FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g.
 FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& \\
 FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& \\
 
-FRQ-3005 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
+FRQ-3004 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
 
-FRQ-3006 & Boolean OR Logic. The system shall support the disjunctive operator to match documents containing at least one specified term. \newline
+FRQ-3005 & Boolean OR Logic. The system shall support the disjunctive operator to match documents containing at least one specified term. \newline
 Syntax: \newline
 1. Keyword: OR (case-sensitive) \newline
 2. Symbol: \texttt{||} \newline
 3. Implicit: Whitespace between terms implies OR (Default behavior).& \\
 
-FRQ-3009 & Boolean AND Logic. The system shall support the conjunctive operator to match documents containing all specified terms.
-
-Syntax:
-
-1. Keyword: AND (case-sensitive)
-
+FRQ-3006 & Boolean AND Logic. The system shall support the conjunctive operator to match documents containing all specified terms.
+Syntax: \newline
+1. Keyword: AND (case-sensitive) \newline
 2. Symbol: \texttt{\&\&} & \\
 
 
 
-FRQ-3014 & Required Term Operator. The system shall support the required (+) operator, indicating that the term must exist in a matching document. \newline
+FRQ-3007 & Required Term Operator. The system shall support the required (+) operator, indicating that the term must exist in a matching document. \newline
             (e.g, If the query searches for ”+"are cats" dog”, results must include items containing ”are cats” and can but does not have to contain ”dog”). & \\
 
-FRQ-3011 & Exclusion Logic (NOT). The system shall support operators to exclude documents containing specific terms. \newline
+FRQ-3008 & Exclusion Logic (NOT). The system shall support operators to exclude documents containing specific terms. \newline
 Syntax: \newline
 1. Keyword: NOT (case-sensitive) \newline
 2. Symbol: ! or - \newline
 Constraint: The exclusion operator must be preceded by a positive term (e.g., "cat -dog"). Standalone exclusion queries shall return an error or zero results. & \\
 
-FRQ-3016 & Grouping with Parentheses. The system shall support grouping of query expressions using parentheses to control operator precedence. \newline
+FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query expressions using parentheses to control operator precedence. \newline
             (e.g, If the query searches for ("cat" AND "dog") OR "fish", results should include items containing either both ”cat” and "dog", "fish" or both clauses.). & \\
 
 
-FRQ-3017 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
+FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
             Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
 FRQ-3018 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
                        & \\
-FRQ-3019 & Results of queries must be paginated when more than 10 results are found. & \\
-FRQ-3020 & The results should contain the headline of the context found. & \\
-FRQ-3021 & The results should contain a snippet with keywords highlighted. & \\
-FRQ-3022 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
+FRQ-3011 & Results of queries must be paginated when more than 10 results are found. & \\
+FRQ-3012 & The results should contain the headline of the context found. & \\
+FRQ-3013 & The results should contain a snippet with keywords highlighted. & \\
+FRQ-3014 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
 \begin{itemize}
  \item Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. 
  \item When TF/IDF scores are equal, documents with higher PageRank shall appear first. 
@@ -148,6 +146,7 @@ FRQ-4003 & When a search query returns zero results, the UI shall display a visi
             that no results were found (e.g., "No results found") & \\
 
 \end{longtable}
+\newpage
 
 \section{Low-Priority Functional Requirements}
 \begin{longtable}{@{}p{2.2cm} p{9cm} p{4.5cm}@{}}
@@ -173,13 +172,13 @@ NFRQ-6006 & Rate limiting parameters shall be configurable via configuration fil
 \bottomrule
 \end{longtable}
 
+
 % Non-Testable RQ 
 \section{Non-Testable RQ}
 \begin{itemize}
   \item FRQ-2005 The system shall use a clearly defined data structure (e.g., ER diagram).
-  \item FRQ-3001 A query containing 2-3 words should return the correct result.
-  \item FRQ-3004 Use same syntax as other providers (standard search syntax). 
 \end{itemize}
+Oklart om denna sektion ska vara med i detta dokument?
 
 
 \end{document}
