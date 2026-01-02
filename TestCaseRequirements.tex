@@ -1,0 +1,124 @@
+\documentclass{article}
+
+% --------------------
+% Encoding & font
+% --------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% --------------------
+% Page layout
+% --------------------
+\usepackage[a4paper, margin=2cm]{geometry}
+
+% --------------------
+% Title info
+% --------------------
+\title{Test Case Specification}
+\author{Group 1}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This document describes test cases for the LTU Search Engine project.
+
+% ==========================================================
+\section{Test Case: TC-FRQ-2001}
+
+\subsection*{Related Requirements}
+FRQ-2001, FRQ-2004
+
+\subsection*{Description}
+Verify that the system extracts only textual content from HTML pages and ignores
+all non-textual content during the indexing process.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item An HTML page containing visible text content
+  \item The same page contains images, videos, scripts, and binary files
+  \item Search index is empty
+\end{itemize}
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Submit the HTML page to the indexing component.
+  \item Parse the HTML document.
+  \item Extract all indexable content.
+  \item Inspect extracted data before storage.
+  \item Store extracted content in the search index.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Only visible textual content is extracted.
+  \item Images, videos, scripts, and binary resources are ignored.
+  \item No non-textual data is stored in the search index.
+  \item Extracted text is suitable for term-based indexing.
+\end{itemize}
+% ==========================================================
+\section{Test Case: TC-FRQ-2002}
+
+\subsection*{Related Requirements}
+FRQ-2002
+
+\subsection*{Description}
+Verify that indexed terms are stored together with references to the pages
+in which they appear using an inverted index structure.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Two or more HTML pages containing overlapping keywords
+  \item Search index is empty
+\end{itemize}
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Submit all pages to the indexing component.
+  \item Extract and tokenize textual terms from each page.
+  \item Normalize extracted terms.
+  \item Store terms in the search index.
+  \item Inspect the internal index structure.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Each unique term is stored exactly once in the index.
+  \item Each term maps to one or more page references (URLs or document IDs).
+  \item Pages containing the same term are associated with that term.
+  \item The index follows the inverted index model.
+\end{itemize}
+% ==========================================================
+\section{Test Case: TC-FRQ-2003}
+
+\subsection*{Related Requirements}
+FRQ-2003
+
+\subsection*{Description}
+Verify that the system supports incremental updates of the search index
+without rebuilding the entire index.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Existing search index populated with indexed pages
+  \item One existing page is modified or a new page is added
+\end{itemize}
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Run the indexing process on the initial dataset.
+  \item Modify an existing page or add a new page.
+  \item Run the indexing process again.
+  \item Monitor which pages are re-indexed.
+  \item Compare the index state before and after the update.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Only new or modified pages are re-indexed.
+  \item Unchanged indexed pages remain untouched.
+  \item No full index rebuild occurs.
+  \item The index remains consistent and searchable after the update.
+\end{itemize}
+
+\end{document}
