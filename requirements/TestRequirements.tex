@@ -117,14 +117,14 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
             Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
-FRQ-3018 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
+FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
                        & \\
-FRQ-3011 & Results of queries must be paginated when more than 10 results are found. & \\
-FRQ-3012 & The results should contain the headline of the context found. & \\
-FRQ-3013 & The results should contain a snippet with keywords highlighted. & \\
-FRQ-3014 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
+FRQ-3012 & Results of queries must be paginated when more than 10 results are found. & \\
+FRQ-3013 & The results should contain the headline of the context found. & \\
+FRQ-3014 & The results should contain a snippet with keywords highlighted. & \\
+FRQ-3015 & Search results shall be ranked by relevance using a combination of TF/IDF scores and PageRank. \newline
 \begin{itemize}
  \item Documents with higher TF/IDF scores for the query terms must appear before documents with lower scores. 
  \item When TF/IDF scores are equal, documents with higher PageRank shall appear first. 
