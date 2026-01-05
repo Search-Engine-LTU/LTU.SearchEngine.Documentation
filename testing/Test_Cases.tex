@@ -27,6 +27,53 @@
 This document describes test cases for the LTU Search Engine project.
 
 % ==========================================================
+\section{Test Case: TC-FRQ-1010}
+
+\subsection*{Related Requirements}
+FRQ-1010
+
+\subsection*{Description}
+Verify that the crawler does not extract or follow hyperlinks contained
+inside PDF documents. Hyperlinks embedded in PDF files must not be added
+to the crawl frontier or visited, even if the crawler downloads the PDF file.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational
+  \item Crawling of normal HTML hyperlinks is enabled
+  \item A reachable PDF document exists that contains one or more hyperlinks
+  \item Logging of visited and scheduled URLs is enabled
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure a seed URL that links to a PDF document.
+  \item Start the crawler with default link-following enabled.
+  \item Allow the crawler to access and download the PDF document.
+  \item Inspect the crawl frontier (scheduled URL list).
+  \item Inspect the list of visited URLs and crawler logs.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler may download or access the PDF file itself.
+  \item No hyperlinks embedded inside the PDF are extracted.
+  \item No hyperlinks embedded inside the PDF are scheduled for crawling.
+  \item No hyperlinks embedded inside the PDF are visited.
+  \item The crawler continues processing other allowed links normally.
+  \item No errors or crashes occur as a result of encountering PDF links.
+\end{itemize}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Only visible textual content is extracted.
+  \item Images, videos, scripts, and binary resources are ignored.
+  \item No non-textual data is stored in the search index.
+  \item Extracted text is suitable for term-based indexing.
+\end{itemize}
+% ==========================================================
+
+% ==========================================================
 \section{Test Case: TC-FRQ-2001}
 
 \subsection*{Related Requirements}
