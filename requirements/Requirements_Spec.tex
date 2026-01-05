@@ -44,7 +44,7 @@
 % --- CRAWLER (1xxx) ---
 \multicolumn{3}{l}{\textbf{\textit{Crawler (1000 Series)}}} \\
 \midrule
-FRQ-1001 & The system shall crawl web pages starting from a given seed URL. & \\
+FRQ-1001 & The system shall crawl web pages starting from a given seed URL. &  \\
 FRQ-1002 & The system shall follow internal links recursively. & \\
 
 
@@ -65,7 +65,7 @@ FRQ-1008 & The system must support adding new domains to the whitelist via a con
 
 FRQ-1009 & The crawler must detect linked PDF files and include them in the index. & \\
 
-FRQ-1010 & The crawler must not follow/crawl links found inside PDF documents. & \\
+FRQ-1010 & The crawler must not follow/crawl links found inside PDF documents. & TC-FRQ-1010\\
 \newpage
 
 
@@ -73,17 +73,17 @@ FRQ-1010 & The crawler must not follow/crawl links found inside PDF documents. &
 \midrule
 \multicolumn{3}{l}{\textbf{\textit{Indexing (2000 Series)}}} \\
 \midrule
-FRQ-2001 & The system shall extract textual content from HTML pages. & \\
-FRQ-2002 & The system shall store indexed terms together with page references (inverted index). & \\
-FRQ-2003 & The system shall support incremental updates of the index. & \\
-FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & \\
+FRQ-2001 & The system shall extract textual content from HTML pages. & TC-FRQ-2001\\
+FRQ-2002 & The system shall store indexed terms together with page references (inverted index). & TC-FRQ-2002\\
+FRQ-2003 & The system shall support incremental updates of the index. & TC-FRQ-2003 \\
+FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & TC-FRQ-2001\\
 
 
 % --- SEARCHING (3xxx) ---
 \midrule
 \multicolumn{3}{l}{\textbf{\textit{Searching (3000 Series)}}} \\
 \midrule
-FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g., "cats and dogs") and operators (e.g., "cats" AND "dogs").& \\
+FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g., "cats and dogs") and operators (e.g., "cats" AND "dogs").& TC-FRQ-3001\\
 FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& \\
 FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& \\
 

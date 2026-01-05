@@ -65,6 +65,53 @@ adds those PDF documents to the index so that they become searchable.
 
 
 % ==========================================================
+\section{Test Case: TC-FRQ-1010}
+
+\subsection*{Related Requirements}
+FRQ-1010
+
+\subsection*{Description}
+Verify that the crawler does not extract or follow hyperlinks contained
+inside PDF documents. Hyperlinks embedded in PDF files must not be added
+to the crawl frontier or visited, even if the crawler downloads the PDF file.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational
+  \item Crawling of normal HTML hyperlinks is enabled
+  \item A reachable PDF document exists that contains one or more hyperlinks
+  \item Logging of visited and scheduled URLs is enabled
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure a seed URL that links to a PDF document.
+  \item Start the crawler with default link-following enabled.
+  \item Allow the crawler to access and download the PDF document.
+  \item Inspect the crawl frontier (scheduled URL list).
+  \item Inspect the list of visited URLs and crawler logs.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler may download or access the PDF file itself.
+  \item No hyperlinks embedded inside the PDF are extracted.
+  \item No hyperlinks embedded inside the PDF are scheduled for crawling.
+  \item No hyperlinks embedded inside the PDF are visited.
+  \item The crawler continues processing other allowed links normally.
+  \item No errors or crashes occur as a result of encountering PDF links.
+\end{itemize}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Only visible textual content is extracted.
+  \item Images, videos, scripts, and binary resources are ignored.
+  \item No non-textual data is stored in the search index.
+  \item Extracted text is suitable for term-based indexing.
+\end{itemize}
+% ==========================================================
+
+% ==========================================================
 \section{Test Case: TC-FRQ-2001}
 
 \subsection*{Related Requirements}
@@ -158,5 +205,43 @@ without rebuilding the entire index.
   \item No full index rebuild occurs.
   \item The index remains consistent and searchable after the update.
 \end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-3001}
+
+\subsection*{Related Requirements}
+TC-FRQ-3001
+
+\subsection*{Description}
+Verify that the search engine accepts and correctly processes search queries composed of simple terms and Boolean operators (e.g., AND).
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search system is running and accessible.
+  \item The search index is populated with test data containing known terms.
+\begin{itemize}
+        \item[] \textit{Example setup:}
+        \begin{itemize}
+            \item Document A contains only "cats".
+            \item Document B contains only "dogs".
+            \item Document C contains both "cats" and "dogs".
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Simple Term Search: Submit a search query with a single term: cats.
+  \item Multiple Terms Search: Submit a search query with multiple terms: cats dogs.
+  \item Operator Search: Submit a search query using the AND operator: cats AND dogs.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Simple Term: The system returns Document A and Document C (all docs containing "cats").
+  \item Multiple Terms: The system returns Document A, B, and C (depending on default ranking, but all relevant docs should be found).
+  \item Operator Search: The system returns only Document C (the document containing both terms). This confirms the AND operator is working logically and not just finding any document with either word.
+\end{itemize}
+% ==========================================================
 
 \end{document}
