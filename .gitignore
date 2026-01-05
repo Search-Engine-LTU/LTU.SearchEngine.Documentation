@@ -426,8 +426,7 @@ FodyWeavers.xsd
 *.synctex.gz
 *.fls
 *.fdb_latexmk
-# Vi låter bli att ignorera *.pdf så att din kravspec syns på GitHub
-# *.pdf
+*.pdf
 
 *.bbl
 *.blg
