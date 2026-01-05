@@ -121,4 +121,42 @@ without rebuilding the entire index.
   \item The index remains consistent and searchable after the update.
 \end{itemize}
 
+% ==========================================================
+\section{Test Case: TC-FRQ-3001}
+
+\subsection*{Related Requirements}
+TC-FRQ-3001
+
+\subsection*{Description}
+Verify that the search engine accepts and correctly processes search queries composed of simple terms and Boolean operators (e.g., AND).
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search system is running and accessible.
+  \item The search index is populated with test data containing known terms.
+\begin{itemize}
+        \item[] \textit{Example setup:}
+        \begin{itemize}
+            \item Document A contains only "cats".
+            \item Document B contains only "dogs".
+            \item Document C contains both "cats" and "dogs".
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Simple Term Search: Submit a search query with a single term: cats.
+  \item Multiple Terms Search: Submit a search query with multiple terms: cats dogs.
+  \item Operator Search: Submit a search query using the AND operator: cats AND dogs.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Simple Term: The system returns Document A and Document C (all docs containing "cats").
+  \item Multiple Terms: The system returns Document A, B, and C (depending on default ranking, but all relevant docs should be found).
+  \item Operator Search: The system returns only Document C (the document containing both terms). This confirms the AND operator is working logically and not just finding any document with either word.
+\end{itemize}
+% ==========================================================
+
 \end{document}
