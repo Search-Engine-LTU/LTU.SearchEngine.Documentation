@@ -50,8 +50,10 @@ FRQ-1002 & The system shall follow internal links recursively. & \\
 
 FRQ-1003 & Domain-based crawling and rate limiting. \newline
 The crawler shall restrict all crawling to domains explicitly listed in a configurable domain whitelist.\newline
-The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
-The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
+  The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) 
+  and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
+  The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
+  to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
 FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
