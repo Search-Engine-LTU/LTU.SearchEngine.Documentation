@@ -243,5 +243,39 @@ Verify that the search engine accepts and correctly processes search queries com
   \item Operator Search: The system returns only Document C (the document containing both terms). This confirms the AND operator is working logically and not just finding any document with either word.
 \end{itemize}
 % ==========================================================
+\section{Test Case: TC-FRQ-3002}
+
+\subsection*{Related Requirements}
+FRQ-3002
+
+\subsection*{Description}
+Verify that the search engine correctly handles and retrieves results for a query consisting of a single, standalone word.
+
+\subsection*{Preconditions}
+\begin{itemize}
+        \item The search system is running and the index is populated.
+        \item[] \textit{Example setup:}
+        \begin{itemize}
+            \item Document A contains the word "test".
+            \item Document B contains the word "hello".
+            \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
+        \end{itemize}
+    \end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+        \item Enter the single term \texttt{hello} into the search input.
+        \item Execute the search.
+        \item Clear results and enter the term \texttt{test}.
+        \item Execute the search.
+    \end{enumerate}
+
+
+\subsection*{Expected Results}
+\begin{itemize}
+        \item For the query \texttt{hello}: Only Document B is returned.
+        \item For the query \texttt{test}: Only Document A is returned.
+       \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
+    \end{itemize}
 
 \end{document}
