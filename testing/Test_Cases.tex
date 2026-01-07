@@ -26,6 +26,39 @@
 \section{Introduction}
 This document describes test cases for the LTU Search Engine project.
 % ==========================================================
+\section{Test Case: TC-FRQ-1001}
+
+\subsection*{Related Requirements}
+FRQ-1001
+
+\subsection*{Description}
+Given a set of linked URLs, Verify that the crawler starts from a seed URL and finds and visits all reachable web pages. 
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational
+  \item A search index surrogate is created and will store visited URL pages.
+  \item The search index surrogate is initially empty.
+  \item A source seed URL, with accompanied HTML page, and at least two additional HTML pages outside of, but linked by the seed URL. 
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with the HTML page as the seed URL.
+  \item Start the crawling process.
+  \item Inspect the contents of the search index.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item No errors occur.
+  \item The search index surrogate contains entries from the seed URL page and all other linked pages.
+\end{itemize}
+
+% ==========================================================
+
+
+% ==========================================================
 \section{Test Case: TC-FRQ-1009}
 
 \subsection*{Related Requirements}
