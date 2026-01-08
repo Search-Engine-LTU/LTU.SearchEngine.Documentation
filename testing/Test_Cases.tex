@@ -57,6 +57,47 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 
 % ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-1008 \newline Configurable whitelist update }
+
+\subsection*{Related Requirements}
+FRQ-1008
+
+\subsection*{Description}
+Verify that the system supports adding new domains to the whitelist via a configuration file 
+and that the crawler allows crawling of newly added domains without requiring code changes or recompilation.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational.
+  \item A domain whitelist configuration file exists.
+  \item The whitelist file initially contains one allowed domain.
+  \item A second domain is available but not present in the whitelist.
+  \item Seed URLs are available for both domains.
+  \item A logging or indexing surrogate is available to record visited domains.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Start the crawler using a seed URL from the initially whitelisted domain.
+  \item Verify that crawling proceeds for the initial domain.
+  \item Stop the crawler.
+  \item Add the second domain to the whitelist configuration file.
+  \item Restart the crawler using a seed URL from the newly added domain.
+  \item Observe the crawler behavior.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler allows crawling of the initially whitelisted domain.
+  \item After updating the configuration file, the crawler allows crawling of the newly added domain.
+  \item No code changes or recompilation are required to support the new domain.
+  \item The crawler ignores domains not listed in the whitelist.
+  \item No errors occur during startup or crawling.
+\end{itemize}
+
+% ==========================================================
+
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1009}
