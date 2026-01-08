@@ -25,7 +25,9 @@
 
 \section{Introduction}
 This document describes test cases for the LTU Search Engine project.
+
 % ==========================================================
+
 \section{Test Case: TC-FRQ-1001}
 
 \subsection*{Related Requirements}
@@ -57,8 +59,46 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 
 % ==========================================================
 
+\section{Test Case: TC-FRQ-1006}
+
+\subsection*{Related Requirements}
+FRQ-1006
+
+\subsection*{Description}
+Given a set of web pages containing duplicate links and multiple paths leading to the same URL, verify that the crawler does not crawl (fetch/process) the same URL more than once during a single execution.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item A search index surrogate is created that records all fetch attempts (visited URLs) during execution.
+  \item The search index surrogate is initially empty.
+  \item A controlled test website (or local test server) exists with the following pages:
+    \begin{itemize}
+      \item Seed page \texttt{/index.html} linking to \texttt{/a.html} and \texttt{/b.html}.
+      \item \texttt{/a.html} contains a link to \texttt{/c.html}.
+      \item \texttt{/b.html} also contains a link to \texttt{/c.html} (duplicate target via another path).
+      \item The seed page also contains two duplicate links to \texttt{/c.html}.
+    \end{itemize}
+  \item The crawler is configured to allow crawling of the test domain (e.g., domain whitelist includes the test host).
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with \texttt{/index.html} as the seed URL.
+  \item Start the crawling process and let it complete.
+  \item Inspect the search index surrogate (or crawler log) for the list of visited URLs and/or fetch attempts.
+  \item Count the number of times \texttt{/c.html} appears in the visited/fetched URL list.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item No errors occur.
+  \item Each unique URL is fetched/processed at most once during the execution.
+  \item The URL \texttt{/c.html} appears exactly once in the visited/fetched URL list, even though it is linked multiple times and via multiple paths.
+\end{itemize}
 
 % ==========================================================
+
 \section{Test Case: TC-FRQ-1009}
 
 \subsection*{Related Requirements}
