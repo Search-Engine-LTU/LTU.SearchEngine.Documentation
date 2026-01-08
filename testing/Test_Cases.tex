@@ -311,4 +311,37 @@ Verify that the search engine correctly handles and retrieves results for a quer
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
 
+% ==========================================================
+\section{Test Case: TC-FRQ-3003}
+
+\subsection*{Related Requirements}
+FRQ-3003
+
+\subsection*{Description}
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
+    \item Execute the search.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only Document A is returned.
+    \item Documents where the words appear separately or in a different order are not returned.
+    \item The system treats the quoted phrase as a single search unit.
+\end{itemize}
+
 \end{document}
