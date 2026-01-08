@@ -54,7 +54,7 @@ The crawler shall enforce a configurable maximum number of concurrent HTTP reque
 The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
 
 FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
-FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
+FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & TC-FRQ-1005\\
 
 
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & \\
