@@ -311,4 +311,40 @@ Verify that the search engine correctly handles and retrieves results for a quer
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
 
+    % ==========================================================
+\section{Test Case: TC-FRQ-3010}
+
+\subsection*{Related Requirements}
+FRQ-3010,FRQ-3011
+
+\subsection*{Description}
+Verify that the search engine supports escaping of special query characters (e.g., \texttt{+}, \texttt{-}, \texttt{:}) using a backslash (\textbackslash), allowing them to be treated as literal characters rather than operators.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running.
+    \item The index contains documents with special characters in their text.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains: "C++ Programming" (Contains special char \texttt{+}).
+        \item Document B contains: "Grade: A" (Contains special char \texttt{:}).
+        \item Document C contains: "C Programming" (No special chars).
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item \textbf{Test Plus Operator:} Enter the query \texttt{C\textbackslash+\textbackslash+} (escaping the plus signs) into the search input.
+    \item Execute the search.
+    \item \textbf{Test Colon Operator:} Enter the query \texttt{Grade\textbackslash: A} (escaping the colon).
+    \item Execute the search.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item \textbf{Query \texttt{C\textbackslash+\textbackslash+}:} The system identifies \texttt{+} as a character, not an operator, and returns \textbf{Document A}. It should ignore Document C.
+    \item \textbf{Query \texttt{Grade\textbackslash: A}:} The system treats \texttt{:} as text and returns \textbf{Document B}.
+    \item The system does not crash or throw a syntax error when processing the backslash.
+\end{itemize}
+
 \end{document}
