@@ -55,7 +55,8 @@ The crawler shall restrict all crawling to domains explicitly listed in a config
   The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
   to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) 
+  at startup for verification and debugging purposes. & TC-FRQ-1004\\
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 

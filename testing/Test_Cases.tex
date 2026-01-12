@@ -58,6 +58,7 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 
 % ==========================================================
 
+
 % ==========================================================
 \section{Test Case: TC-FRQ-1003-A \newline Domain Rate and concurrency Limit Enforcement}
 
@@ -80,7 +81,6 @@ of fetch operations during a controlled crawl execution.
   \item A set of URLs belonging to the same domain is provided as crawl input.
 \end{itemize}
 
-\subsection*{Test Steps}
 \begin{enumerate}
   \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
   \item Provide the crawler with multiple URLs belonging to the same domain.
@@ -88,7 +88,6 @@ of fetch operations during a controlled crawl execution.
   \item Record the start time and concurrency level for each fetch operation.
 \end{enumerate}
 
-\subsection*{Expected Results}
 \begin{itemize}
   \item The maximum number of simultaneous fetch operations for the domain does not exceed 
         \textit{maxConcurrencyPerDomain}.
@@ -96,7 +95,6 @@ of fetch operations during a controlled crawl execution.
         \textit{minDelayMs}.
   \item All fetch operations complete without errors.
 \end{itemize}
-
 % ==========================================================
 
 % ==========================================================
@@ -138,6 +136,45 @@ in the whitelist shall be ignored and no fetch attempts shall be performed for t
   \item No fetch attempts are made for URLs belonging to non-whitelisted domains.
   \item The crawl completes without errors.
 \end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1004 \newline Logging maxConcurrencyPerDomain and minDelayMs at startup}
+
+\subsection*{Related Requirements}
+FRQ-1004
+
+\subsection*{Description}
+Verify that the crawler logs the active rate limiting configuration values 
+\textit{maxConcurrencyPerDomain} and \textit{minDelayMs} during startup. 
+The logged values shall reflect the effective configuration used by the crawler 
+and be available for verification and debugging purposes.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler is configured with specific values for 
+        \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double or intercepting logger is available to capture log entries.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler with the specified rate limiting configuration.
+  \item Start the crawler.
+  \item Capture all log entries emitted during the startup phase.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A log entry is produced during crawler startup.
+  \item The log entry contains the configured value of \textit{maxConcurrencyPerDomain}.
+  \item The log entry contains the configured value of \textit{minDelayMs}.
+  \item The logged values match the effective configuration used by the crawler.
+  \item No errors occur during startup.
+\end{itemize}
+
+% ==========================================================
 
 
 % ==========================================================
