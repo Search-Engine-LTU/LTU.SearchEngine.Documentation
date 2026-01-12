@@ -176,9 +176,6 @@ and be available for verification and debugging purposes.
 
 % ==========================================================
 
-
-% ==========================================================
-
 % ==========================================================
 
 \section{Test Case: TC-FRQ-1005 \newline Crawler Robots Compliance}
@@ -197,6 +194,7 @@ and shall skip all URLs that are disallowed according to the robots policy.
   \item A robots.txt file is available at the root of the target domain
   \item The robots.txt file defines at least one \texttt{Disallow} rule for the crawler \texttt{user-agent}
   \item A seed URL belonging to the target domain is configured
+  \item The seed page contains hyperlinks to both allowed and disallowed paths defined in \texttt{robots.txt}
   \item The crawler \texttt{user-agent} string is explicitly defined in the configuration
 \end{itemize}
 
