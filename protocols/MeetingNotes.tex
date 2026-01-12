@@ -19,6 +19,137 @@
 \maketitle
 
 % ==========================================
+%        SUPERVISOR MEETING START
+% ==========================================
+
+\section*{Supervisor Meeting: 2026-01-08}
+
+\textbf{Supervisor:} Malte Kerl \\
+\textbf{Attendees:} Emma, Cilla, Jean-Paul, Nattarintra, Linnea \\
+
+\subsection*{Feedback on ER Diagram}
+
+\begin{itemize}
+  \item A question was raised regarding how the system represents pages that are no longer available.
+  One possible solution is to simply remove such pages from the database. The solution does not need to be sophisticated, but the group should be able to reason about and motivate the chosen approach.
+
+  \item The use of a \textbf{normalized representation of words} was recommended. At the moment, several different representations of the same word may exist. The purpose and benefit of normalization should be clearly understood and applied.
+
+  \item Storing a \textbf{datetime for last crawled} was confirmed to be a good design choice.
+
+  \item Clarification was requested regarding the purpose of \textbf{HTTP status}.
+  If it is used to indicate removed or redirected pages (e.g.\ HTTP 302), then it is reasonable to keep it.
+
+  \item The attribute \texttt{priority\_integer} can be removed for now, as it is not necessary.
+  Similarly, the \texttt{Done} status in the crawl queue can be removed.
+
+  \item Overall, the ER diagram is considered largely complete.
+
+  \item For handling concurrency in the crawler, tools such as \textbf{Redis} or \textbf{Celery} may be used (links were provided by Malte).
+  The group is encouraged to attempt implementing concurrency. However, if it turns out to be too complex, it is acceptable to skip it.
+\end{itemize}
+
+\subsection*{Module Diagram and Architecture}
+
+\begin{itemize}
+  \item The module diagram is generally acceptable.
+  \item Authentication should be removed.
+  \item The paginator should be moved either to the database layer or to \texttt{Backend.Application}.
+  \item The role and necessity of a \texttt{BackgroundService} should be reconsidered and clearly motivated.
+\end{itemize}
+
+\subsection*{Process and Testing}
+
+\begin{itemize}
+  \item The documentation repository and the current use of GitHub issues were reviewed and considered appropriate.
+
+  \item Malte will check with Ulf whether the project should follow SCRUM, and if a backlog is required.
+  It may be useful to define a few initial use cases at the beginning, until development of the search engine is underway.
+
+  \item The project does not need to strictly follow Test Driven Development (TDD).
+  However, testing is required, and tests should be written continuously alongside development, not postponed until after implementation.
+\end{itemize}
+
+\subsection*{Design and Readiness}
+
+\begin{itemize}
+  \item The module diagram should be used as the basis for completing the UML and class diagrams.
+
+  \item Malte asked whether the group feels ready to start parallel coding.
+  The group expressed that this is not yet the case, as parts of the overall structure and "big picture" are still unclear.
+  This is expected to become clearer once the diagrams are finalized.
+
+  \item The query syntax must be defined and documented.
+
+  \item Contact information pages should be crawled at this stage.
+  In the future, a solution for overriding \texttt{robots.txt} for such pages will be needed.
+\end{itemize}
+
+\subsection*{Next Steps}
+
+\begin{itemize}
+  \item Finalize UML and class diagrams and send them to Malte.
+  \item Prepare for the next supervisor meeting on \textbf{Thursday, January 15 at 10:00}.
+\end{itemize}
+
+% ==========================================
+%        SUPERVISOR MEETING END
+% ==========================================
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+
+\section*{Meeting: 2026-01-08}
+
+\textbf{Attendees:} Cilla, Emma, Jean-Paul, Nattarintra, Linnea \\
+
+\subsection*{Topics Discussed}
+
+\begin{itemize}
+  \item The group discussed questions to be raised with the supervisor regarding:
+  \begin{itemize}
+    \item Whether the project should follow Test Driven Development (TDD).
+    \item If TDD would imply additional workload by writing tests before implementation and then iterating.
+    \item The need for clarification on what TDD means in practice for this project.
+    \item Whether contact information pages should be included in the crawling scope.
+    \item With respect to FRQ-1003, whether the crawler should support concurrent crawling.
+    \item If concurrency increases complexity or execution time.
+    \item The consequences of not using concurrency.
+  \end{itemize}
+
+  \item It was noted that the group should organise the work in a more structured way, including clearer role and task distribution.
+
+  \item The documentation is not yet complete. There are still test cases that need to be written for several requirements.
+
+  \item On GitHub, issues exist for most backend-related tasks, while no issues have yet been created for frontend work.
+\end{itemize}
+
+\subsection*{Task Distribution}
+
+\begin{itemize}
+  \item Jean-Paul will continue writing test cases for crawler-related requirements (RQ 1000-series).
+  \item Cilla has also started working on crawler test cases and will continue contributing in that area.
+  \item Nattarintra will begin working on requirements and test cases in the RQ 3000-series.
+  \item Emma, Cilla, and Linnea will conduct a short walkthrough of the development environment in VS Code to investigate and resolve issues encountered when running the program.
+\end{itemize}
+
+\subsection*{Next Steps}
+
+\begin{itemize}
+  \item Model the crawler and incorporate feedback from the supervisor meeting later the same day (15:00).
+  \item Work towards clearer role definitions and task distribution within the group.
+\end{itemize}
+
+% ==========================================
+%           MEETING END
+% ==========================================
+
+\newpage
+
+% ==========================================
 %           MEETING START
 % ==========================================
 
