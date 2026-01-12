@@ -26,7 +26,6 @@
 \section{Introduction}
 This document describes test cases for the LTU Search Engine project.
 
-
 % ==========================================================
 \section{Test Case: TC-FRQ-1001}
 
@@ -56,6 +55,90 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
   \item No errors occur.
   \item The search index surrogate contains entries from the seed URL page and all other linked pages in recursively order.
 \end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-A \newline Domain Rate and concurrency Limit Enforcement}
+
+\subsection*{Related Requirements}
+FRQ-1003
+
+\subsection*{Description}
+Verify that the crawler enforces per-domain rate limiting by ensuring that no more than 
+\textit{maxConcurrencyPerDomain} concurrent fetch operations are executed for a single domain, 
+and that consecutive fetch requests to the same domain are separated by at least 
+\textit{minDelayMs}. The behavior is validated by observing the order, timing, and concurrency 
+of fetch operations during a controlled crawl execution.
+
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler is configured with specific values for \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double for the page fetcher is available to record fetch start times and active fetch counts.
+  \item A test-controlled time source is used to simulate the passage of time.
+  \item A set of URLs belonging to the same domain is provided as crawl input.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
+  \item Provide the crawler with multiple URLs belonging to the same domain.
+  \item Start the crawling process.
+  \item Record the start time and concurrency level for each fetch operation.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The maximum number of simultaneous fetch operations for the domain does not exceed 
+        \textit{maxConcurrencyPerDomain}.
+  \item The time difference between consecutive fetch operations for the same domain is greater than or equal to 
+        \textit{minDelayMs}.
+  \item All fetch operations complete without errors.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-B \newline Whitelist Enforcement}
+
+\subsection*{Related Requirements}
+FRQ-1003
+
+\subsection*{Description}
+Verify that the crawler enforces domain whitelisting by only fetching pages whose domains 
+are explicitly listed in the configured whitelist. URLs belonging to domains not present 
+in the whitelist shall be ignored and no fetch attempts shall be performed for them.
+
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item A domain whitelist containing one or more allowed domains is configured.
+  \item A test double for the page fetcher is available to record attempted fetch operations.
+  \item The crawler is provided with a set of URLs that includes:
+    \begin{itemize}
+      \item URLs belonging to whitelisted domains, and
+      \item URLs belonging to non-whitelisted domains.
+    \end{itemize}
+\end{itemize}
+
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler with the configured domain whitelist and the instrumented page fetcher.
+  \item Provide the crawler with the mixed set of whitelisted and non-whitelisted URLs.
+  \item Start the crawling process.
+  \item Record all fetch attempts performed by the crawler.
+\end{enumerate}
+
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Fetch operations are performed only for URLs whose domains appear in the whitelist.
+  \item No fetch attempts are made for URLs belonging to non-whitelisted domains.
+  \item The crawl completes without errors.
+\end{itemize}
+
 
 % ==========================================================
 
