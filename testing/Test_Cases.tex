@@ -310,5 +310,41 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+% ==========================================================
+\section{Test Case: TC-FRQ-3004}
+
+\subsection*{Related Requirements}
+FRQ-3004
+
+\subsection*{Description}
+Verify that the search engine enforces case sensitivity for Boolean operators and only recognizes Boolean operators (AND, OR, NOT) when they are specified in uppercase letters.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item The indexed documents contain terms that allow Boolean query evaluation (e.g., documents containing combinations of words such as ``hello'', ``world'', and ``example'').
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Enter a search query using the uppercase operator \texttt{AND} (e.g., \texttt{hello AND world}) and execute the search.
+    \item Clear the search input.
+    \item Enter a search query using the lowercase operator \texttt{and} (e.g., \texttt{hello and world}) and execute the search.
+    \item Clear the search input.
+    \item Enter a search query using the uppercase operator \texttt{OR} (e.g., \texttt{hello OR world}) and execute the search.
+    \item Clear the search input.
+    \item Enter a search query using the lowercase operator \texttt{or} (e.g., \texttt{hello or world}) and execute the search.
+    \item Clear the search input.
+    \item Enter a search query using the uppercase operator \texttt{NOT} (e.g., \texttt{hello NOT world}) and execute the search.
+    \item Clear the search input.
+    \item Enter a search query using the lowercase operator \texttt{not} (e.g., \texttt{hello not world}) and execute the search.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Queries using uppercase Boolean operators (\texttt{AND}, \texttt{OR}, \texttt{NOT}) are interpreted according to Boolean logic.
+    \item Queries using lowercase operators (\texttt{and}, \texttt{or}, \texttt{not}) are not interpreted as Boolean operators.
+    \item The system correctly distinguishes operator case during query parsing.
+\end{itemize}
 
 \end{document}
