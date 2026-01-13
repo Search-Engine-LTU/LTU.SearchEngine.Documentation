@@ -50,10 +50,13 @@ FRQ-1002 & The system shall follow internal links recursively. & TC-FRQ-1001\\
 
 FRQ-1003 & Domain-based crawling and rate limiting. \newline
 The crawler shall restrict all crawling to domains explicitly listed in a configurable domain whitelist.\newline
-The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
-The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
+  The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) 
+  and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
+  The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
+  to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) 
+  at startup for verification and debugging purposes. & TC-FRQ-1004\\
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
@@ -61,7 +64,7 @@ FRQ-1006 & The crawler shall avoid crawling the same URL more than once per exec
 
 FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
 
-FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & \\
+FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & TC-FRQ-1008\\
 
 FRQ-1009 & The crawler must detect linked PDF files and include them in the index. & TC-FRQ-1009 \\
 
@@ -77,8 +80,8 @@ FRQ-2001 & The system shall extract textual content from HTML pages. & TC-FRQ-20
 FRQ-2002 & The system shall store indexed terms together with page references (inverted index). & TC-FRQ-2002\\
 FRQ-2003 & The system shall support incremental updates of the index. & TC-FRQ-2003 \\
 FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & TC-FRQ-2001\\
-FRQ-2005 & The system shall enqueue a URL in the crawl queue before any fetch attempt is performed. & \\
-FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & \\
+FRQ-2005 & The system shall enqueue a URL in the crawl queue before any fetch attempt is performed. & TC-FRQ-2005 \\
+FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & TC-FRQ-2005\\
 FRQ-2007 & The system shall store indexed terms in a global, language-normalized form. & \\
 
 % --- SEARCHING (3xxx) ---
@@ -118,8 +121,8 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
-            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
-FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & TC-FRQ 3010 \\
+FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. &  TC-FRQ 3010 \\
 
 
                        & \\
