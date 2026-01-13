@@ -439,6 +439,44 @@ without rebuilding the entire index.
 \end{itemize}
 
 % ==========================================================
+
+\section{Test Case: TC-FRQ-2005}
+
+\subsection*{Related Requirements}
+FRQ-2005, FRQ-2006
+
+\subsection*{Description}
+Verify that the system uses a clearly defined data structure (ER-diagram) and follows a specific operational order: 
+a URL must be enqueued in the crawl queue before any fetch attempt, and a page record must be created only after the fetch attempt is completed.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item A database or data structure following a defined ER-diagram is implemented.
+  \item The crawl queue and page record table are initially empty.
+  \item Monitoring of database transactions or system logs is enabled.
+\end{itemize}
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Documentation Review: Inspect the system's technical 
+  documentation to verify the existence of a clearly defined data structure/ER-diagram.
+  \item Queue Inspection: Add a seed URL to the system and pause
+   the process before the crawler performs the HTTP fetch.
+  \item Verify Pre-fetch State: Check the crawl queue to confirm the URL is present.
+  \item Verify Page Table: Confirm that no page record has been created for the URL yet.
+  \item Complete Fetch: Allow the crawler to perform the fetch attempt (regardless of success or failure)
+  \item Verify Post-fetch State: Inspect the database to confirm a page record is now created.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A clearly defined data structure (e.g., ER-diagram) exists and matches the implementation.
+  \item The URL is successfully enqueued before any fetch attempt is performed.
+  \item A page record is created only after the fetch attempt is completed, even if the fetch was unsuccessful.
+  \item The system maintains a consistent state between the crawl queue and the page records.
+\end{itemize}
+
+% ==========================================================
 \section{Test Case: TC-FRQ-3001}
 
 \subsection*{Related Requirements}
