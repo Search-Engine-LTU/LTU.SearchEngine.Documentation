@@ -439,6 +439,44 @@ without rebuilding the entire index.
 \end{itemize}
 
 % ==========================================================
+
+\section{Test Case: TC-FRQ-2005}
+
+\subsection*{Related Requirements}
+FRQ-2005, FRQ-2006
+
+\subsection*{Description}
+Verify that the system uses a clearly defined data structure (ER-diagram) and follows a specific operational order: 
+a URL must be enqueued in the crawl queue before any fetch attempt, and a page record must be created only after the fetch attempt is completed.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item A database or data structure following a defined ER-diagram is implemented.
+  \item The crawl queue and page record table are initially empty.
+  \item Monitoring of database transactions or system logs is enabled.
+\end{itemize}
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Documentation Review: Inspect the system's technical 
+  documentation to verify the existence of a clearly defined data structure/ER-diagram.
+  \item Queue Inspection: Add a seed URL to the system and pause
+   the process before the crawler performs the HTTP fetch.
+  \item Verify Pre-fetch State: Check the crawl queue to confirm the URL is present.
+  \item Verify Page Table: Confirm that no page record has been created for the URL yet.
+  \item Complete Fetch: Allow the crawler to perform the fetch attempt (regardless of success or failure)
+  \item Verify Post-fetch State: Inspect the database to confirm a page record is now created.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A clearly defined data structure (e.g., ER-diagram) exists and matches the implementation.
+  \item The URL is successfully enqueued before any fetch attempt is performed.
+  \item A page record is created only after the fetch attempt is completed, even if the fetch was unsuccessful.
+  \item The system maintains a consistent state between the crawl queue and the page records.
+\end{itemize}
+
+% ==========================================================
 \section{Test Case: TC-FRQ-3001}
 
 \subsection*{Related Requirements}
@@ -510,6 +548,24 @@ Verify that the search engine correctly handles and retrieves results for a quer
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
 
+% ==========================================================
+\section{Test Case: TC-FRQ-3003}
+
+\subsection*{Related Requirements}
+FRQ-3003
+
+\subsection*{Description}
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
     % ==========================================================
 \section{Test Case: TC-FRQ-3010}
 
@@ -529,6 +585,8 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Test Steps}
 \begin{enumerate}
+    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
+    \item Execute the search.
     \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
     \item[] \textit{Test String:} 
     \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
@@ -537,6 +595,9 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Expected Results}
 \begin{itemize}
+    \item Only Document A is returned.
+    \item Documents where the words appear separately or in a different order are not returned.
+    \item The system treats the quoted phrase as a single search unit.
     \item The parser processes the input without errors.
     \item The resulting query term consists of the characters stripped of their escape backslashes.
     \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
