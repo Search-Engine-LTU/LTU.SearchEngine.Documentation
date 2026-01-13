@@ -176,6 +176,47 @@ and be available for verification and debugging purposes.
 % ==========================================================
 
 % ==========================================================
+
+\section{Test Case: TC-FRQ-1005 \newline Crawler Robots Compliance}
+
+\subsection*{Related Requirements}
+FRQ-1005
+
+\subsection*{Description}
+Verify that the crawler retrieves, parses, and enforces the rules defined in the \texttt{robots.txt} file
+of a target domain. The crawler shall only request URLs that are explicitly allowed for its user-agent
+and shall skip all URLs that are disallowed according to the robots policy.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational
+  \item A robots.txt file is available at the root of the target domain
+  \item The robots.txt file defines at least one \texttt{Disallow} rule for the crawler \texttt{user-agent}
+  \item A seed URL belonging to the target domain is configured
+  \item The seed page contains hyperlinks to both allowed and disallowed paths defined in \texttt{robots.txt}
+  \item The crawler \texttt{user-agent} string is explicitly defined in the configuration
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with a seed URL belonging to the target domain.
+  \item Start the crawling process.
+  \item Fetch and parse the \texttt{robots.txt} file for the domain.
+  \item Attempt to crawl URLs that are both allowed and disallowed by the robots rules.
+  \item Monitor crawler decisions for each attempted URL.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The \texttt{robots.txt} file is fetched exactly once per domain.
+  \item URLs disallowed by the robots rules are not requested.
+  \item URLs allowed by the robots rules are requested and processed normally.
+  \item All crawling decisions related to robots enforcement are logged.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
 \section{Test Case: TC-FRQ-1008 \newline Configurable whitelist update }
 
 \subsection*{Related Requirements}
