@@ -469,6 +469,32 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+% ==========================================================
+\section{Test Case: TC-FRQ-3006}
+
+\subsection*{Related Requirements}
+FRQ-3006
+
+\subsection*{Description}
+Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item The index contains documents with partial and complete term coverage.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
+\end{itemize}
 
     % ==========================================================
 \section{Test Case: TC-FRQ-3010}
