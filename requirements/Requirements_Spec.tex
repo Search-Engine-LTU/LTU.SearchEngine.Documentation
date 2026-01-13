@@ -55,8 +55,7 @@ The crawler shall restrict all crawling to domains explicitly listed in a config
   The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
   to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) 
-  at startup for verification and debugging purposes. & TC-FRQ-1004\\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
@@ -64,7 +63,7 @@ FRQ-1006 & The crawler shall avoid crawling the same URL more than once per exec
 
 FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
 
-FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & \\
+FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & TC-FRQ-1008\\
 
 FRQ-1009 & The crawler must detect linked PDF files and include them in the index. & TC-FRQ-1009 \\
 
@@ -80,8 +79,8 @@ FRQ-2001 & The system shall extract textual content from HTML pages. & TC-FRQ-20
 FRQ-2002 & The system shall store indexed terms together with page references (inverted index). & TC-FRQ-2002\\
 FRQ-2003 & The system shall support incremental updates of the index. & TC-FRQ-2003 \\
 FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & TC-FRQ-2001\\
-FRQ-2005 & The system shall enqueue a URL in the crawl queue before any fetch attempt is performed. & \\
-FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & \\
+FRQ-2005 & The system shall enqueue a URL in the crawl queue before any fetch attempt is performed. & TC-FRQ-2005 \\
+FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & TC-FRQ-2005\\
 FRQ-2007 & The system shall store indexed terms in a global, language-normalized form. & \\
 
 % --- SEARCHING (3xxx) ---
@@ -90,7 +89,7 @@ FRQ-2007 & The system shall store indexed terms in a global, language-normalized
 \midrule
 FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g., "cats and dogs") and operators (e.g., "cats" AND "dogs").& TC-FRQ-3001\\
 FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& TC-FRQ-3002\\
-FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& \\
+FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& TC-FRQ-3003\\
 
 FRQ-3004 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
 
@@ -98,7 +97,7 @@ FRQ-3005 & Boolean OR Logic. The system shall support the disjunctive operator t
 Syntax: \newline
 1. Keyword: OR (case-sensitive) \newline
 2. Symbol: \texttt{||} \newline
-3. Implicit: Whitespace between terms implies OR (Default behavior).& \\
+3. Implicit: Whitespace between terms implies OR (Default behavior).& TC-FRQ-3005 \\
 
 FRQ-3006 & Boolean AND Logic. The system shall support the conjunctive operator to match documents containing all specified terms.
 Syntax: \newline
@@ -121,8 +120,8 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
-            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & TC-FRQ 3010 \\
-FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. &  TC-FRQ 3010 \\
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
+FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
                        & \\
