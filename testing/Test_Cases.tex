@@ -65,7 +65,7 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 FRQ-1006
 
 \subsection*{Description}
-Given a set of web pages containing duplicate links and multiple paths leading to the same URL, verify that the crawler does not crawl (fetch/process) the same URL more than once during a single execution.
+Given a set of web pages containing duplicate links and multiple paths (both relative and absolute) leading to the same URL, verify that the crawler does not crawl (fetch/process) the same logical page more than once during a single execution.
 
 \subsection*{Preconditions}
 \begin{itemize}
@@ -75,8 +75,8 @@ Given a set of web pages containing duplicate links and multiple paths leading t
   \item A controlled test website (or local test server) exists with the following pages:
     \begin{itemize}
       \item Seed page \texttt{/index.html} linking to \texttt{/a.html} and \texttt{/b.html}.
-      \item \texttt{/a.html} contains a link to \texttt{/c.html}.
-      \item \texttt{/b.html} also contains a link to \texttt{/c.html} (duplicate target via another path).
+      \item \texttt{/a.html} contains a relative link to \texttt{/c.html}.
+      \item \texttt{/b.html} contains an absolute link to \texttt{http://test-domain/c.html} (duplicate target via different URL form).
       \item The seed page also contains two duplicate links to \texttt{/c.html}.
     \end{itemize}
   \item The crawler is configured to allow crawling of the test domain (e.g., domain whitelist includes the test host).
@@ -87,14 +87,14 @@ Given a set of web pages containing duplicate links and multiple paths leading t
   \item Configure the crawler with \texttt{/index.html} as the seed URL.
   \item Start the crawling process and let it complete.
   \item Inspect the search index surrogate (or crawler log) for the list of visited URLs and/or fetch attempts.
-  \item Count the number of times \texttt{/c.html} appears in the visited/fetched URL list.
+  \item Count the number of times the logical page \texttt{/c.html} (after URL normalization) appears in the visited/fetched URL list.
 \end{enumerate}
 
 \subsection*{Expected Results}
 \begin{itemize}
   \item No errors occur.
-  \item Each unique URL is fetched/processed at most once during the execution.
-  \item The URL \texttt{/c.html} appears exactly once in the visited/fetched URL list, even though it is linked multiple times and via multiple paths.
+  \item Each unique page is fetched/processed at most once during the execution, regardless of whether it is referenced via relative or absolute URLs.
+  \item The page corresponding to \texttt{/c.html} appears exactly once in the visited/fetched URL list, even though it is linked multiple times and via multiple URL representations.
 \end{itemize}
 
 % ==========================================================
