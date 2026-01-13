@@ -50,10 +50,13 @@ FRQ-1002 & The system shall follow internal links recursively. & TC-FRQ-1001\\
 
 FRQ-1003 & Domain-based crawling and rate limiting. \newline
 The crawler shall restrict all crawling to domains explicitly listed in a configurable domain whitelist.\newline
-The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
-The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses to ensure consistent behavior if underlying hosting or IP mappings change.& \\
+  The crawler shall enforce a configurable maximum number of concurrent HTTP requests per domain (maxConcurrencyPerDomain) 
+  and a configurable minimum delay (minDelayMs) between consecutive requests to the same domain.\newline
+  The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
+  to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) 
+  at startup for verification and debugging purposes. & TC-FRQ-1004\\
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
@@ -118,8 +121,8 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
-            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
-FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & TC-FRQ 3010 \\
+FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. &  TC-FRQ 3010 \\
 
 
                        & \\

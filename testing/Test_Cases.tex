@@ -25,6 +25,7 @@
 
 \section{Introduction}
 This document describes test cases for the LTU Search Engine project.
+
 % ==========================================================
 \section{Test Case: TC-FRQ-1001}
 
@@ -94,6 +95,124 @@ and that the crawler allows crawling of newly added domains without requiring co
   \item No code changes or recompilation are required to support the new domain.
   \item The crawler ignores domains not listed in the whitelist.
   \item No errors occur during startup or crawling.
+\end{itemize}
+
+% ==========================================================
+
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-A \newline Domain Rate and concurrency Limit Enforcement}
+
+\subsection*{Related Requirements}
+FRQ-1003
+
+\subsection*{Description}
+Verify that the crawler enforces per-domain rate limiting by ensuring that no more than 
+\textit{maxConcurrencyPerDomain} concurrent fetch operations are executed for a single domain, 
+and that consecutive fetch requests to the same domain are separated by at least 
+\textit{minDelayMs}. The behavior is validated by observing the order, timing, and concurrency 
+of fetch operations during a controlled crawl execution.
+
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler is configured with specific values for \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double for the page fetcher is available to record fetch start times and active fetch counts.
+  \item A test-controlled time source is used to simulate the passage of time.
+  \item A set of URLs belonging to the same domain is provided as crawl input.
+\end{itemize}
+
+\begin{enumerate}
+  \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
+  \item Provide the crawler with multiple URLs belonging to the same domain.
+  \item Start the crawling process.
+  \item Record the start time and concurrency level for each fetch operation.
+\end{enumerate}
+
+\begin{itemize}
+  \item The maximum number of simultaneous fetch operations for the domain does not exceed 
+        \textit{maxConcurrencyPerDomain}.
+  \item The time difference between consecutive fetch operations for the same domain is greater than or equal to 
+        \textit{minDelayMs}.
+  \item All fetch operations complete without errors.
+\end{itemize}
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-B \newline Whitelist Enforcement}
+
+\subsection*{Related Requirements}
+FRQ-1003
+
+\subsection*{Description}
+Verify that the crawler enforces domain whitelisting by only fetching pages whose domains 
+are explicitly listed in the configured whitelist. URLs belonging to domains not present 
+in the whitelist shall be ignored and no fetch attempts shall be performed for them.
+
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item A domain whitelist containing one or more allowed domains is configured.
+  \item A test double for the page fetcher is available to record attempted fetch operations.
+  \item The crawler is provided with a set of URLs that includes:
+    \begin{itemize}
+      \item URLs belonging to whitelisted domains, and
+      \item URLs belonging to non-whitelisted domains.
+    \end{itemize}
+\end{itemize}
+
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler with the configured domain whitelist and the instrumented page fetcher.
+  \item Provide the crawler with the mixed set of whitelisted and non-whitelisted URLs.
+  \item Start the crawling process.
+  \item Record all fetch attempts performed by the crawler.
+\end{enumerate}
+
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Fetch operations are performed only for URLs whose domains appear in the whitelist.
+  \item No fetch attempts are made for URLs belonging to non-whitelisted domains.
+  \item The crawl completes without errors.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1004 \newline Logging maxConcurrencyPerDomain and minDelayMs at startup}
+
+\subsection*{Related Requirements}
+FRQ-1004
+
+\subsection*{Description}
+Verify that the crawler logs the active rate limiting configuration values 
+\textit{maxConcurrencyPerDomain} and \textit{minDelayMs} during startup. 
+The logged values shall reflect the effective configuration used by the crawler 
+and be available for verification and debugging purposes.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler is configured with specific values for 
+        \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double or intercepting logger is available to capture log entries.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler with the specified rate limiting configuration.
+  \item Start the crawler.
+  \item Capture all log entries emitted during the startup phase.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A log entry is produced during crawler startup.
+  \item The log entry contains the configured value of \textit{maxConcurrencyPerDomain}.
+  \item The log entry contains the configured value of \textit{minDelayMs}.
+  \item The logged values match the effective configuration used by the crawler.
+  \item No errors occur during startup.
 \end{itemize}
 
 % ==========================================================
@@ -351,5 +470,38 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+
+    % ==========================================================
+\section{Test Case: TC-FRQ-3010}
+
+\subsection*{Related Requirements}
+FRQ-3010, FRQ-3011
+
+\subsection*{Description}
+Verify that the query parser correctly supports escaping for \textbf{all} special characters defined in the requirements. 
+The test utilizes a mock repository (or query builder inspection) 
+to ensure that when these characters are preceded by a backslash, they are interpreted as literal characters rather than search operators.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search engine's query parser is isolated for unit testing.
+    \item A mock object or spy is attached to the query builder to intercept the parsed query structure before execution.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
+    \item[] \textit{Test String:} 
+    \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
+    \item \textbf{Inspect:} Examine the resulting query object or processed term string generated by the parser.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item The parser processes the input without errors.
+    \item The resulting query term consists of the characters stripped of their escape backslashes.
+    \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
+    \item None of the characters are interpreted as boolean operators, grouping symbols, or field separators.
+\end{itemize}
 
 \end{document}
