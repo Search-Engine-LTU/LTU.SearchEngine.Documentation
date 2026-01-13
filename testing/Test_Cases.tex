@@ -548,6 +548,24 @@ Verify that the search engine correctly handles and retrieves results for a quer
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
 
+% ==========================================================
+\section{Test Case: TC-FRQ-3003}
+
+\subsection*{Related Requirements}
+FRQ-3003
+
+\subsection*{Description}
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
     % ==========================================================
 \section{Test Case: TC-FRQ-3010}
 
@@ -567,6 +585,8 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Test Steps}
 \begin{enumerate}
+    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
+    \item Execute the search.
     \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
     \item[] \textit{Test String:} 
     \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
@@ -575,6 +595,9 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Expected Results}
 \begin{itemize}
+    \item Only Document A is returned.
+    \item Documents where the words appear separately or in a different order are not returned.
+    \item The system treats the quoted phrase as a single search unit.
     \item The parser processes the input without errors.
     \item The resulting query term consists of the characters stripped of their escape backslashes.
     \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
