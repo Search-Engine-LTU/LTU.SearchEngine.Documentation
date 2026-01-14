@@ -335,7 +335,51 @@ adds those PDF documents to the index so that they become searchable.
   \item Terms extracted from the PDF document become searchable.
   \item No errors occur as a result of handling the PDF file.
 \end{itemize}
+% ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-1009-B (PDF Indexing)}
+
+\subsection*{Related Requirements}
+FRQ-1009
+
+\subsection*{Description}
+Verify that PDF documents discovered by the crawler are processed by the indexing
+component and that their textual contents are added to the search index.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item Indexing component is operational.
+  \item PDF parsing and text extraction is enabled.
+  \item At least one reachable PDF file exists and is allowed to be crawled.
+  \item The search index is initially empty.
+\end{itemize}
+
+\subsection*{Test Data}
+\begin{itemize}
+  \item Seed URL: HTML page containing a link to \texttt{sample.pdf}
+  \item PDF file contains known unique term: \texttt{``InformationRetrievalTestTerm''}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with the HTML page as the seed URL.
+  \item Start the crawling process.
+  \item Allow the crawler to fetch the HTML page and follow the link to the PDF file.
+  \item Allow the indexing component to download and parse the PDF.
+  \item Perform a search query for the known term contained in the PDF.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The PDF file is successfully downloaded by the crawler.
+  \item The indexing component extracts textual content from the PDF.
+  \item Extracted terms are stored in the inverted index.
+  \item A search for \texttt{``InformationRetrievalTestTerm''} returns the PDF document as a result.
+  \item No errors occur during PDF parsing or indexing.
+\end{itemize}
+% ==========================================================
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1010}
