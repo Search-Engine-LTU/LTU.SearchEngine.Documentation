@@ -379,7 +379,50 @@ adds those PDF documents to the index so that they become searchable.
   \item Terms extracted from the PDF document become searchable.
   \item No errors occur as a result of handling the PDF file.
 \end{itemize}
+% ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-1009-A (PDF Link Detection Only)}
+
+\subsection*{Related Requirements}
+FRQ-1009
+
+\subsection*{Description}
+Verify that the crawler detects hyperlinks in HTML pages that point to PDF files
+(e.g., URLs ending with \texttt{.pdf} or served with \texttt{Content-Type: application/pdf})
+and registers them as discovered PDF resources.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item Crawling of external resources is permitted.
+  \item A test HTML page exists containing at least one hyperlink to a PDF file.
+  \item The crawler has logging/telemetry enabled OR exposes a list/queue of discovered URLs.
+\end{itemize}
+
+\subsection*{Test Data}
+\begin{itemize}
+  \item Seed URL: \texttt{https://example.test/page.html}
+  \item HTML contains link: \texttt{<a href="https://example.test/docs/report.pdf">Report</a>}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with the HTML page as the seed URL.
+  \item Start crawling.
+  \item Allow the crawler to fetch and parse the HTML page.
+  \item Observe the crawler's discovered links output (e.g., logs, discovered-URL list, or crawl queue).
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler identifies the hyperlink target as a PDF resource.
+  \item The discovered URL \texttt{https://example.test/docs/report.pdf} is recorded as a PDF link
+        (e.g., tagged as \texttt{PDF}, added to a PDF-discovery list, or enqueued to a PDF fetch queue).
+  \item No indexing step is required for this test case; the pass criterion is detection/registration only.
+  \item No errors occur during HTML parsing and link classification.
+\end{itemize}
+% ==========================================================
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1010}
