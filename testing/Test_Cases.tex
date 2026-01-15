@@ -59,46 +59,247 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 
 % ==========================================================
 
-\section{Test Case: TC-FRQ-1006}
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-A \newline Domain Rate and concurrency Limit Enforcement}
 
 \subsection*{Related Requirements}
-FRQ-1006
+FRQ-1003
 
 \subsection*{Description}
-Given a set of web pages containing duplicate links and multiple paths (both relative and absolute) leading to the same URL, verify that the crawler does not crawl (fetch/process) the same logical page more than once during a single execution.
+Verify that the crawler enforces per-domain rate limiting by ensuring that no more than 
+\textit{maxConcurrencyPerDomain} concurrent fetch operations are executed for a single domain, 
+and that consecutive fetch requests to the same domain are separated by at least 
+\textit{minDelayMs}. The behavior is validated by observing the order, timing, and concurrency 
+of fetch operations during a controlled crawl execution.
+
 
 \subsection*{Preconditions}
 \begin{itemize}
-  \item Crawler component is operational.
-  \item A search index surrogate is created that records all fetch attempts (visited URLs) during execution.
-  \item The search index surrogate is initially empty.
-  \item A controlled test website (or local test server) exists with the following pages:
-    \begin{itemize}
-      \item Seed page \texttt{/index.html} linking to \texttt{/a.html} and \texttt{/b.html}.
-      \item \texttt{/a.html} contains a relative link to \texttt{/c.html}.
-      \item \texttt{/b.html} contains an absolute link to \texttt{http://test-domain/c.html} (duplicate target via different URL form).
-      \item The seed page also contains two duplicate links to \texttt{/c.html}.
-    \end{itemize}
-  \item The crawler is configured to allow crawling of the test domain (e.g., domain whitelist includes the test host).
+  \item The crawler is configured with specific values for \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double for the page fetcher is available to record fetch start times and active fetch counts.
+  \item A test-controlled time source is used to simulate the passage of time.
+  \item A set of URLs belonging to the same domain is provided as crawl input.
 \end{itemize}
+
+\begin{enumerate}
+  \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
+  \item Provide the crawler with multiple URLs belonging to the same domain.
+  \item Start the crawling process.
+  \item Record the start time and concurrency level for each fetch operation.
+\end{enumerate}
+
+\begin{itemize}
+  \item The maximum number of simultaneous fetch operations for the domain does not exceed 
+        \textit{maxConcurrencyPerDomain}.
+  \item The time difference between consecutive fetch operations for the same domain is greater than or equal to 
+        \textit{minDelayMs}.
+  \item All fetch operations complete without errors.
+\end{itemize}
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1003-B \newline Whitelist Enforcement}
+
+\subsection*{Related Requirements}
+FRQ-1003
+
+\subsection*{Description}
+Verify that the crawler enforces domain whitelisting by only fetching pages whose domains 
+are explicitly listed in the configured whitelist. URLs belonging to domains not present 
+in the whitelist shall be ignored and no fetch attempts shall be performed for them.
+
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item A domain whitelist containing one or more allowed domains is configured.
+  \item A test double for the page fetcher is available to record attempted fetch operations.
+  \item The crawler is provided with a set of URLs that includes:
+    \begin{itemize}
+      \item URLs belonging to whitelisted domains, and
+      \item URLs belonging to non-whitelisted domains.
+    \end{itemize}
+\end{itemize}
+
 
 \subsection*{Test Steps}
 \begin{enumerate}
-  \item Configure the crawler with \texttt{/index.html} as the seed URL.
-  \item Start the crawling process and let it complete.
-  \item Inspect the search index surrogate (or crawler log) for the list of visited URLs and/or fetch attempts.
-  \item Count the number of times the logical page \texttt{/c.html} (after URL normalization) appears in the visited/fetched URL list.
+  \item Initialize the crawler with the configured domain whitelist and the instrumented page fetcher.
+  \item Provide the crawler with the mixed set of whitelisted and non-whitelisted URLs.
+  \item Start the crawling process.
+  \item Record all fetch attempts performed by the crawler.
 \end{enumerate}
+
 
 \subsection*{Expected Results}
 \begin{itemize}
-  \item No errors occur.
-  \item Each unique page is fetched/processed at most once during the execution, regardless of whether it is referenced via relative or absolute URLs.
-  \item The page corresponding to \texttt{/c.html} appears exactly once in the visited/fetched URL list, even though it is linked multiple times and via multiple URL representations.
+  \item Fetch operations are performed only for URLs whose domains appear in the whitelist.
+  \item No fetch attempts are made for URLs belonging to non-whitelisted domains.
+  \item The crawl completes without errors.
 \end{itemize}
 
 % ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-1004 \newline Logging maxConcurrencyPerDomain and minDelayMs at startup}
+
+\subsection*{Related Requirements}
+FRQ-1004
+
+\subsection*{Description}
+Verify that the crawler logs the active rate limiting configuration values 
+\textit{maxConcurrencyPerDomain} and \textit{minDelayMs} during startup. 
+The logged values shall reflect the effective configuration used by the crawler 
+and be available for verification and debugging purposes.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler is configured with specific values for 
+        \textit{maxConcurrencyPerDomain} and \textit{minDelayMs}.
+  \item A test double or intercepting logger is available to capture log entries.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Initialize the crawler with the specified rate limiting configuration.
+  \item Start the crawler.
+  \item Capture all log entries emitted during the startup phase.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A log entry is produced during crawler startup.
+  \item The log entry contains the configured value of \textit{maxConcurrencyPerDomain}.
+  \item The log entry contains the configured value of \textit{minDelayMs}.
+  \item The logged values match the effective configuration used by the crawler.
+  \item No errors occur during startup.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+
+\section{Test Case: TC-FRQ-1005 \newline Crawler Robots Compliance}
+
+\subsection*{Related Requirements}
+FRQ-1005
+
+\subsection*{Description}
+Verify that the crawler retrieves, parses, and enforces the rules defined in the \texttt{robots.txt} file
+of a target domain. The crawler shall only request URLs that are explicitly allowed for its user-agent
+and shall skip all URLs that are disallowed according to the robots policy.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational
+  \item A robots.txt file is available at the root of the target domain
+  \item The robots.txt file defines at least one \texttt{Disallow} rule for the crawler \texttt{user-agent}
+  \item A seed URL belonging to the target domain is configured
+  \item The seed page contains hyperlinks to both allowed and disallowed paths defined in \texttt{robots.txt}
+  \item The crawler \texttt{user-agent} string is explicitly defined in the configuration
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with a seed URL belonging to the target domain.
+  \item Start the crawling process.
+  \item Fetch and parse the \texttt{robots.txt} file for the domain.
+  \item Attempt to crawl URLs that are both allowed and disallowed by the robots rules.
+  \item Monitor crawler decisions for each attempted URL.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The \texttt{robots.txt} file is fetched exactly once per domain.
+  \item URLs disallowed by the robots rules are not requested.
+  \item URLs allowed by the robots rules are requested and processed normally.
+  \item All crawling decisions related to robots enforcement are logged.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1007 \newline Crawler ignores non-relevant resources}
+
+\subsection*{Related Requirements}
+FRQ-1007
+
+\subsection*{Description}
+Verify that the crawler ignores non-relevant resources such as images, CSS files, and JavaScript files, 
+and only processes HTML documents during crawling.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational.
+  \item The crawler is configured with a seed URL pointing to an HTML page.
+  \item The seed HTML page contains < a href="..." > links to:
+    \begin{itemize}
+      \item One or more HTML pages
+      \item Image resources (e.g., \texttt{.png}, \texttt{.jpg})
+      \item Stylesheet resources (e.g., \texttt{.css})
+      \item Script resources (e.g., \texttt{.js})
+    \end{itemize}
+  \item A logging or indexing surrogate is available to record fetched URLs.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Start the crawler with the configured seed URL.
+  \item Allow the crawler to process all reachable links from the seed page.
+  \item Inspect the recorded fetch attempts in the log or index surrogate.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler fetches and processes only HTML documents.
+  \item No fetch attempts are made for image, CSS, or JavaScript resources.
+  \item Non-relevant resource URLs do not appear in the crawl queue or index.
+  \item The crawling process completes without errors.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1008 \newline Configurable whitelist update }
+
+\subsection*{Related Requirements}
+FRQ-1008
+
+\subsection*{Description}
+Verify that the system supports adding new domains to the whitelist via a configuration file 
+and that the crawler allows crawling of newly added domains without requiring code changes or recompilation.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational.
+  \item A domain whitelist configuration file exists.
+  \item The whitelist file initially contains one allowed domain.
+  \item A second domain is available but not present in the whitelist.
+  \item Seed URLs are available for both domains.
+  \item A logging or indexing surrogate is available to record visited domains.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Start the crawler using a seed URL from the initially whitelisted domain.
+  \item Verify that crawling proceeds for the initial domain.
+  \item Stop the crawler.
+  \item Add the second domain to the whitelist configuration file.
+  \item Restart the crawler using a seed URL from the newly added domain.
+  \item Observe the crawler behavior.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler allows crawling of the initially whitelisted domain.
+  \item After updating the configuration file, the crawler allows crawling of the newly added domain.
+  \item No code changes or recompilation are required to support the new domain.
+  \item The crawler ignores domains not listed in the whitelist.
+  \item No errors occur during startup or crawling.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
 \section{Test Case: TC-FRQ-1009}
 
 \subsection*{Related Requirements}
@@ -200,6 +401,7 @@ all non-textual content during the indexing process.
   \item The same page contains images, videos, scripts, and binary files
   \item Search index is empty
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Submit the HTML page to the indexing component.
@@ -216,6 +418,7 @@ all non-textual content during the indexing process.
   \item No non-textual data is stored in the search index.
   \item Extracted text is suitable for term-based indexing.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-2002}
 
@@ -231,6 +434,7 @@ in which they appear using an inverted index structure.
   \item Two or more HTML pages containing overlapping keywords
   \item Search index is empty
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Submit all pages to the indexing component.
@@ -247,6 +451,7 @@ in which they appear using an inverted index structure.
   \item Pages containing the same term are associated with that term.
   \item The index follows the inverted index model.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-2003}
 
@@ -262,6 +467,7 @@ without rebuilding the entire index.
   \item Existing search index populated with indexed pages
   \item One existing page is modified or a new page is added
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Run the indexing process on the initial dataset.
@@ -280,6 +486,45 @@ without rebuilding the entire index.
 \end{itemize}
 
 % ==========================================================
+
+\section{Test Case: TC-FRQ-2005}
+
+\subsection*{Related Requirements}
+FRQ-2005, FRQ-2006
+
+\subsection*{Description}
+Verify that the system uses a clearly defined data structure (ER-diagram) and follows a specific operational order: 
+a URL must be enqueued in the crawl queue before any fetch attempt, and a page record must be created only after the fetch attempt is completed.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item A database or data structure following a defined ER-diagram is implemented.
+  \item The crawl queue and page record table are initially empty.
+  \item Monitoring of database transactions or system logs is enabled.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Documentation Review: Inspect the system's technical 
+  documentation to verify the existence of a clearly defined data structure/ER-diagram.
+  \item Queue Inspection: Add a seed URL to the system and pause
+   the process before the crawler performs the HTTP fetch.
+  \item Verify Pre-fetch State: Check the crawl queue to confirm the URL is present.
+  \item Verify Page Table: Confirm that no page record has been created for the URL yet.
+  \item Complete Fetch: Allow the crawler to perform the fetch attempt (regardless of success or failure)
+  \item Verify Post-fetch State: Inspect the database to confirm a page record is now created.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item A clearly defined data structure (e.g., ER-diagram) exists and matches the implementation.
+  \item The URL is successfully enqueued before any fetch attempt is performed.
+  \item A page record is created only after the fetch attempt is completed, even if the fetch was unsuccessful.
+  \item The system maintains a consistent state between the crawl queue and the page records.
+\end{itemize}
+
+% ==========================================================
 \section{Test Case: TC-FRQ-3001}
 
 \subsection*{Related Requirements}
@@ -292,14 +537,14 @@ Verify that the search engine accepts and correctly processes search queries com
 \begin{itemize}
   \item The search system is running and accessible.
   \item The search index is populated with test data containing known terms.
-\begin{itemize}
-        \item[] \textit{Example setup:}
-        \begin{itemize}
-            \item Document A contains only "cats".
-            \item Document B contains only "dogs".
-            \item Document C contains both "cats" and "dogs".
-        \end{itemize}
+  \begin{itemize}
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains only "cats".
+        \item Document B contains only "dogs".
+        \item Document C contains both "cats" and "dogs".
     \end{itemize}
+  \end{itemize}
 \end{itemize}
 
 \subsection*{Test Steps}
@@ -315,6 +560,7 @@ Verify that the search engine accepts and correctly processes search queries com
   \item Multiple Terms: The system returns Document A, B, and C (depending on default ranking, but all relevant docs should be found).
   \item Operator Search: The system returns only Document C (the document containing both terms). This confirms the AND operator is working logically and not just finding any document with either word.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-3002}
 
@@ -326,14 +572,14 @@ Verify that the search engine correctly handles and retrieves results for a quer
 
 \subsection*{Preconditions}
 \begin{itemize}
-        \item The search system is running and the index is populated.
-        \item[] \textit{Example setup:}
-        \begin{itemize}
-            \item Document A contains the word "test".
-            \item Document B contains the word "hello".
-            \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
-        \end{itemize}
-    \end{itemize}
+  \item The search system is running and the index is populated.
+  \item[] \textit{Example setup:}
+  \begin{itemize}
+      \item Document A contains the word "test".
+      \item Document B contains the word "hello".
+      \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
+  \end{itemize}
+\end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
@@ -350,5 +596,117 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+% ==========================================================
+\section{Test Case: TC-FRQ-3006}
+
+\subsection*{Related Requirements}
+FRQ-3006
+
+\subsection*{Description}
+Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item The index contains documents with partial and complete term coverage.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
+\end{itemize}
+\section{Test Case: TC-FRQ-3005}
+
+\subsection*{Related Requirements}
+FRQ-3005
+
+\subsection*{Description}
+Verify that the search engine applies Boolean OR semantics, matching documents containing at least one specified term, using all supported OR syntaxes.
+
+\textit{Assumption:} Operator case sensitivity is enforced as defined in FRQ-3004.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item The index contains documents that include either, both, or none of the queried terms.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{OR}.
+    \item Execute an equivalent query using the symbol operator \texttt{||}.
+    \item Execute an equivalent query using implicit OR via whitespace separation.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item All query variants match documents containing at least one specified term.
+    \item All OR syntaxes produce equivalent result sets.
+\end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-3003}
+
+\subsection*{Related Requirements}
+FRQ-3003
+
+\subsection*{Description}
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
+\end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-3010}
+
+\subsection*{Related Requirements}
+FRQ-3010, FRQ-3011
+
+\subsection*{Description}
+Verify that the query parser correctly supports escaping for \textbf{all} special characters defined in the requirements. 
+The test utilizes a mock repository (or query builder inspection) 
+to ensure that when these characters are preceded by a backslash, they are interpreted as literal characters rather than search operators.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search engine's query parser is isolated for unit testing.
+    \item A mock object or spy is attached to the query builder to intercept the parsed query structure before execution.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
+    \item Execute the search.
+    \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
+    \item[] \textit{Test String:} 
+    \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
+    \item \textbf{Inspect:} Examine the resulting query object or processed term string generated by the parser.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only Document A is returned.
+    \item Documents where the words appear separately or in a different order are not returned.
+    \item The system treats the quoted phrase as a single search unit.
+    \item The parser processes the input without errors.
+    \item The resulting query term consists of the characters stripped of their escape backslashes.
+    \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
+    \item None of the characters are interpreted as boolean operators, grouping symbols, or field separators.
+\end{itemize}
 
 \end{document}
