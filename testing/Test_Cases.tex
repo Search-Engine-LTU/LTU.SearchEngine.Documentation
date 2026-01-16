@@ -682,32 +682,54 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+
 % ==========================================================
-\section{Test Case: TC-FRQ-3006}
+\section{Test Case: TC-FRQ-3003}
 
 \subsection*{Related Requirements}
-FRQ-3006
+FRQ-3003
 
 \subsection*{Description}
-Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
 
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item The index contains documents with partial and complete term coverage.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
+\end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-3004}
+
+\subsection*{Related Requirements}
+FRQ-3004
+
+\subsection*{Description}
+Verify that Boolean operators are case-sensitive and are only recognized when specified in uppercase letters.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
 \end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
-    \item Execute a query using the keyword operator \texttt{AND}.
-    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+    \item Execute a query using uppercase Boolean operators (\texttt{AND}, \texttt{OR}, \texttt{NOT}).
+    \item Execute equivalent queries using lowercase operators (\texttt{and}, \texttt{or}, \texttt{not}).
 \end{enumerate}
 
 \subsection*{Expected Results}
 \begin{itemize}
-    \item Only documents containing all specified terms are matched.
-    \item Both AND syntaxes produce equivalent result sets.
+    \item Uppercase Boolean operators are interpreted according to Boolean logic.
+    \item Lowercase operator tokens are not interpreted as Boolean operators.
 \end{itemize}
+
+% ==========================================================
 \section{Test Case: TC-FRQ-3005}
 
 \subsection*{Related Requirements}
@@ -738,23 +760,30 @@ Verify that the search engine applies Boolean OR semantics, matching documents c
 \end{itemize}
 
 % ==========================================================
-\section{Test Case: TC-FRQ-3003}
+\section{Test Case: TC-FRQ-3006}
 
 \subsection*{Related Requirements}
-FRQ-3003
+FRQ-3006
 
 \subsection*{Description}
-Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
 
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item[] \textit{Example setup:}
-    \begin{itemize}
-        \item Document A contains the exact phrase ``hello dolly''.
-        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
-        \item Document C contains only one of the words (e.g., ``hello'').
-    \end{itemize}
+    \item The index contains documents with partial and complete term coverage.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
 \end{itemize}
 
 % ==========================================================
