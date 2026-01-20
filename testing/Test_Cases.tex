@@ -56,6 +56,40 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
   \item No errors occur.
   \item The search index surrogate contains entries from the seed URL page and all other linked pages in recursively order.
 \end{itemize}
+% ==========================================================
+
+\section{Test Case: TC-FRQ-1001-N1}
+
+\subsection*{Related Requirements}
+FRQ-1001
+
+\subsection*{Description}
+Verify that the crawler ignores a seed URL whose domain is not in the whitelist.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler system is operational.
+  \item A domain whitelist configuration exists.
+  \item The domain of the provided seed URL is not included in the whitelist.
+  \item The current state of the search index can be observed.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Record the current state of the search index.
+  \item Issue a start crawl command using a seed URL whose domain is not part of the whitelist.
+  \item Record the state of the search index after the command completes.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawl request is terminated immediately.
+  \item No crawling process or crawl workflow is initiated.
+  \item No HTTP requests are sent.
+  \item No URLs are enqueued for crawling.
+  \item The state of the search index remains unchanged.
+  \item The command completes without errors.
+\end{itemize}
 
 % ==========================================================
 
