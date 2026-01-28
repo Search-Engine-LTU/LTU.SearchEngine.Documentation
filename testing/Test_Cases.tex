@@ -27,6 +27,7 @@
 This document describes test cases for the LTU Search Engine project.
 
 % ==========================================================
+
 \section{Test Case: TC-FRQ-1001}
 
 \subsection*{Related Requirements}
@@ -54,6 +55,40 @@ Given a set of linked URLs, Verify that the crawler starts from a seed URL then 
 \begin{itemize}
   \item No errors occur.
   \item The search index surrogate contains entries from the seed URL page and all other linked pages in recursively order.
+\end{itemize}
+% ==========================================================
+
+\section{Test Case: TC-FRQ-1001-N1}
+
+\subsection*{Related Requirements}
+FRQ-1001
+
+\subsection*{Description}
+Verify that the crawler ignores a seed URL whose domain is not in the whitelist.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler system is operational.
+  \item A domain whitelist configuration exists.
+  \item The domain of the provided seed URL is not included in the whitelist.
+  \item The current state of the search index can be observed.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Record the current state of the search index.
+  \item Issue a start crawl command using a seed URL whose domain is not part of the whitelist.
+  \item Record the state of the search index after the command completes.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawl request is terminated immediately.
+  \item No crawling process or crawl workflow is initiated.
+  \item No HTTP requests are sent.
+  \item No URLs are enqueued for crawling.
+  \item The state of the search index remains unchanged.
+  \item The command completes without errors.
 \end{itemize}
 
 % ==========================================================
@@ -217,6 +252,90 @@ and shall skip all URLs that are disallowed according to the robots policy.
 % ==========================================================
 
 % ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1006}
+
+\subsection*{Related Requirements}
+FRQ-1006
+
+\subsection*{Description}
+Given a set of web pages containing duplicate links and multiple paths (both relative and absolute) leading to the same URL, verify that the crawler does not crawl (fetch/process) the same logical page more than once during a single execution.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item A search index surrogate is created that records all fetch attempts (visited URLs) during execution.
+  \item The search index surrogate is initially empty.
+  \item A controlled test website (or local test server) exists with the following pages:
+    \begin{itemize}
+      \item Seed page \texttt{/index.html} linking to \texttt{/a.html} and \texttt{/b.html}.
+      \item \texttt{/a.html} contains a relative link to \texttt{/c.html}.
+      \item \texttt{/b.html} contains an absolute link to \texttt{http://test-domain/c.html} (duplicate target via different URL form).
+      \item The seed page also contains two duplicate links to \texttt{/c.html}.
+    \end{itemize}
+  \item The crawler is configured to allow crawling of the test domain (e.g., domain whitelist includes the test host).
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with \texttt{/index.html} as the seed URL.
+  \item Start the crawling process and let it complete.
+  \item Inspect the search index surrogate (or crawler log) for the list of visited URLs and/or fetch attempts.
+  \item Count the number of times the logical page \texttt{/c.html} (after URL normalization) appears in the visited/fetched URL list.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item No errors occur.
+  \item Each unique page is fetched/processed at most once during the execution, regardless of whether it is referenced via relative or absolute URLs.
+  \item The page corresponding to \texttt{/c.html} appears exactly once in the visited/fetched URL list, even though it is linked multiple times and via multiple URL representations.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1007 \newline Crawler ignores non-relevant resources}
+
+\subsection*{Related Requirements}
+FRQ-1007
+
+\subsection*{Description}
+Verify that the crawler ignores non-relevant resources such as images, CSS files, and JavaScript files, 
+and only processes HTML documents during crawling.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The crawler component is operational.
+  \item The crawler is configured with a seed URL pointing to an HTML page.
+  \item The seed HTML page contains < a href="..." > links to:
+    \begin{itemize}
+      \item One or more HTML pages
+      \item Image resources (e.g., \texttt{.png}, \texttt{.jpg})
+      \item Stylesheet resources (e.g., \texttt{.css})
+      \item Script resources (e.g., \texttt{.js})
+    \end{itemize}
+  \item A logging or indexing surrogate is available to record fetched URLs.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Start the crawler with the configured seed URL.
+  \item Allow the crawler to process all reachable links from the seed page.
+  \item Inspect the recorded fetch attempts in the log or index surrogate.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler fetches and processes only HTML documents.
+  \item No fetch attempts are made for image, CSS, or JavaScript resources.
+  \item Non-relevant resource URLs do not appear in the crawl queue or index.
+  \item The crawling process completes without errors.
+\end{itemize}
+
+% ==========================================================
+
+% ==========================================================
 \section{Test Case: TC-FRQ-1008 \newline Configurable whitelist update }
 
 \subsection*{Related Requirements}
@@ -294,7 +413,50 @@ adds those PDF documents to the index so that they become searchable.
   \item Terms extracted from the PDF document become searchable.
   \item No errors occur as a result of handling the PDF file.
 \end{itemize}
+% ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-1009-A (PDF Link Detection Only)}
+
+\subsection*{Related Requirements}
+FRQ-1009
+
+\subsection*{Description}
+Verify that the crawler detects hyperlinks in HTML pages that point to PDF files
+(e.g., URLs ending with \texttt{.pdf} or served with \texttt{Content-Type: application/pdf})
+and registers them as discovered PDF resources.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler component is operational.
+  \item Crawling of external resources is permitted.
+  \item A test HTML page exists containing at least one hyperlink to a PDF file.
+  \item The crawler has logging/telemetry enabled OR exposes a list/queue of discovered URLs.
+\end{itemize}
+
+\subsection*{Test Data}
+\begin{itemize}
+  \item Seed URL: \texttt{https://example.test/page.html}
+  \item HTML contains link: \texttt{<a href="https://example.test/docs/report.pdf">Report</a>}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with the HTML page as the seed URL.
+  \item Start crawling.
+  \item Allow the crawler to fetch and parse the HTML page.
+  \item Observe the crawler's discovered links output (e.g., logs, discovered-URL list, or crawl queue).
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The crawler identifies the hyperlink target as a PDF resource.
+  \item The discovered URL \texttt{https://example.test/docs/report.pdf} is recorded as a PDF link
+        (e.g., tagged as \texttt{PDF}, added to a PDF-discovery list, or enqueued to a PDF fetch queue).
+  \item No indexing step is required for this test case; the pass criterion is detection/registration only.
+  \item No errors occur during HTML parsing and link classification.
+\end{itemize}
+% ==========================================================
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1010}
@@ -359,6 +521,7 @@ all non-textual content during the indexing process.
   \item The same page contains images, videos, scripts, and binary files
   \item Search index is empty
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Submit the HTML page to the indexing component.
@@ -375,6 +538,7 @@ all non-textual content during the indexing process.
   \item No non-textual data is stored in the search index.
   \item Extracted text is suitable for term-based indexing.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-2002}
 
@@ -390,6 +554,7 @@ in which they appear using an inverted index structure.
   \item Two or more HTML pages containing overlapping keywords
   \item Search index is empty
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Submit all pages to the indexing component.
@@ -406,6 +571,7 @@ in which they appear using an inverted index structure.
   \item Pages containing the same term are associated with that term.
   \item The index follows the inverted index model.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-2003}
 
@@ -421,6 +587,7 @@ without rebuilding the entire index.
   \item Existing search index populated with indexed pages
   \item One existing page is modified or a new page is added
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Run the indexing process on the initial dataset.
@@ -456,6 +623,7 @@ a URL must be enqueued in the crawl queue before any fetch attempt, and a page r
   \item The crawl queue and page record table are initially empty.
   \item Monitoring of database transactions or system logs is enabled.
 \end{itemize}
+
 \subsection*{Test Steps}
 \begin{enumerate}
   \item Documentation Review: Inspect the system's technical 
@@ -524,14 +692,14 @@ Verify that the search engine accepts and correctly processes search queries com
 \begin{itemize}
   \item The search system is running and accessible.
   \item The search index is populated with test data containing known terms.
-\begin{itemize}
-        \item[] \textit{Example setup:}
-        \begin{itemize}
-            \item Document A contains only "cats".
-            \item Document B contains only "dogs".
-            \item Document C contains both "cats" and "dogs".
-        \end{itemize}
+  \begin{itemize}
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains only "cats".
+        \item Document B contains only "dogs".
+        \item Document C contains both "cats" and "dogs".
     \end{itemize}
+  \end{itemize}
 \end{itemize}
 
 \subsection*{Test Steps}
@@ -547,6 +715,7 @@ Verify that the search engine accepts and correctly processes search queries com
   \item Multiple Terms: The system returns Document A, B, and C (depending on default ranking, but all relevant docs should be found).
   \item Operator Search: The system returns only Document C (the document containing both terms). This confirms the AND operator is working logically and not just finding any document with either word.
 \end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-3002}
 
@@ -558,14 +727,14 @@ Verify that the search engine correctly handles and retrieves results for a quer
 
 \subsection*{Preconditions}
 \begin{itemize}
-        \item The search system is running and the index is populated.
-        \item[] \textit{Example setup:}
-        \begin{itemize}
-            \item Document A contains the word "test".
-            \item Document B contains the word "hello".
-            \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
-        \end{itemize}
-    \end{itemize}
+  \item The search system is running and the index is populated.
+  \item[] \textit{Example setup:}
+  \begin{itemize}
+      \item Document A contains the word "test".
+      \item Document B contains the word "hello".
+      \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
+  \end{itemize}
+\end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
@@ -582,32 +751,54 @@ Verify that the search engine correctly handles and retrieves results for a quer
         \item For the query \texttt{test}: Only Document A is returned.
        \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
     \end{itemize}
+
 % ==========================================================
-\section{Test Case: TC-FRQ-3006}
+\section{Test Case: TC-FRQ-3003}
 
 \subsection*{Related Requirements}
-FRQ-3006
+FRQ-3003
 
 \subsection*{Description}
-Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
+Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
 
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item The index contains documents with partial and complete term coverage.
+    \item[] \textit{Example setup:}
+    \begin{itemize}
+        \item Document A contains the exact phrase ``hello dolly''.
+        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
+        \item Document C contains only one of the words (e.g., ``hello'').
+    \end{itemize}
+\end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-3004}
+
+\subsection*{Related Requirements}
+FRQ-3004
+
+\subsection*{Description}
+Verify that Boolean operators are case-sensitive and are only recognized when specified in uppercase letters.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item The search system is running and the index is populated.
 \end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
-    \item Execute a query using the keyword operator \texttt{AND}.
-    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+    \item Execute a query using uppercase Boolean operators (\texttt{AND}, \texttt{OR}, \texttt{NOT}).
+    \item Execute equivalent queries using lowercase operators (\texttt{and}, \texttt{or}, \texttt{not}).
 \end{enumerate}
 
 \subsection*{Expected Results}
 \begin{itemize}
-    \item Only documents containing all specified terms are matched.
-    \item Both AND syntaxes produce equivalent result sets.
+    \item Uppercase Boolean operators are interpreted according to Boolean logic.
+    \item Lowercase operator tokens are not interpreted as Boolean operators.
 \end{itemize}
+
+% ==========================================================
 \section{Test Case: TC-FRQ-3005}
 
 \subsection*{Related Requirements}
@@ -638,13 +829,13 @@ Verify that the search engine applies Boolean OR semantics, matching documents c
 \end{itemize}
 
 % ==========================================================
-\section{Test Case: TC-FRQ-3003}
+\section{Test Case: TC-FRQ-3006}
 
 \subsection*{Related Requirements}
-FRQ-3003
+FRQ-3006
 
 \subsection*{Description}
-Verify that the search engine correctly handles phrase queries consisting of multiple words enclosed in double quotation marks, and only returns documents where the exact phrase appears with the same word order and adjacency.
+Verify that the search engine applies Boolean AND semantics, matching only documents that contain all specified terms, using both supported AND syntaxes.
 
 \subsection*{Preconditions}
 \begin{itemize}
@@ -655,7 +846,6 @@ Verify that the search engine correctly handles phrase queries consisting of mul
         \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
         \item Document C contains only one of the words (e.g., ``hello'').
     \end{itemize}
-
     % ==========================================================
 \section{Test Case: TC-FRQ-3010}
 

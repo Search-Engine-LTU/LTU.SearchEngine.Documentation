@@ -44,7 +44,7 @@
 % --- CRAWLER (1xxx) ---
 \multicolumn{3}{l}{\textbf{\textit{Crawler (1000 Series)}}} \\
 \midrule
-FRQ-1001 & The system shall crawl web pages starting from a given seed URL. &  TC-FRQ-1001\\
+FRQ-1001 & The system shall crawl web pages starting from a given seed URL. &  TC-FRQ-1001 - TC-FRQ-1001-N1 \\
 FRQ-1002 & The system shall follow internal links recursively. & TC-FRQ-1001\\
 
 
@@ -59,9 +59,9 @@ FRQ-1004 & The crawler shall log the active rate limiting configuration values (
 FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
 
 
-FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & \\
+FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & TC-FRQ-1006 \\
 
-FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & \\
+FRQ-1007 & The crawler shall ignore non-relevant resources (images, CSS, JS). & TC-FRQ-1007\\
 
 FRQ-1008 & The system must support adding new domains to the whitelist via a configuration file. & TC-FRQ-1008\\
 
@@ -91,7 +91,7 @@ FRQ-3001 & Query Terms. The system shall support queries composed of terms (e.g.
 FRQ-3002 & Single Term Support. The system shall support single-term queries, where a term consists of one word (e.g., test, hello).& TC-FRQ-3002\\
 FRQ-3003 & Phrase Support. The system shall support phrase queries, defined as multiple words enclosed in double quotation marks (e.g., "hello dolly").& TC-FRQ-3003\\
 
-FRQ-3004 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & \\
+FRQ-3004 & Operator Case Sensitivity. The system shall require Boolean operators to be specified in uppercase letters. & TC-FRQ-3004 \\
 
 FRQ-3005 & Boolean OR Logic. The system shall support the disjunctive operator to match documents containing at least one specified term. \newline
 Syntax: \newline
