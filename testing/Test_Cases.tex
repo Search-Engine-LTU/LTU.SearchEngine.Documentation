@@ -666,11 +666,11 @@ Verify, at a unit level, that the logic layer requests a page record creation st
 \begin{enumerate}
     \item \textbf{Arrange (Success Scenario):} Configure the \textit{MockFetcher} to return a successful response (HTTP 200).
     \item \textbf{Act:} Call the crawl method on the \textit{CrawlerService} with a dummy URL.
-    \item \textbf{Assert (Sequence):} Verify that \textit{MockRepository.CreateRecord()} was called exactly once.
+    \item \textbf{Assert (Sequence):} Verify that \textit{MockRepository.CreateRecord()} was called once for this crawl invocation.
     \item \textbf{Assert (Order):} Verify that the fetch call occurred \textit{before} the create record call.
     \item \textbf{Arrange (Failure Scenario):} Reset mocks. Configure \textit{MockFetcher} to throw an exception (e.g., NetworkError).
     \item \textbf{Act:} Call the crawl method on the \textit{CrawlerService} with the same URL.
-    \item \textbf{Assert (Resilience):} Verify that \textit{MockRepository.CreateRecord()} is still called exactly once, ensuring the logic proceeds despite the fetch exception.
+    \item \textbf{Assert (Resilience):} Verify that \textit{MockRepository.CreateRecord()} is still called once per invocation, ensuring the logic proceeds despite the fetch exception.
 \end{enumerate}
 
 \subsection*{Expected Results}
@@ -845,6 +845,7 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
         \item Document A contains the exact phrase ``hello dolly''.
         \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
         \item Document C contains only one of the words (e.g., ``hello'').
+\end{itemize}
 \end{itemize}
 
 % ==========================================================
