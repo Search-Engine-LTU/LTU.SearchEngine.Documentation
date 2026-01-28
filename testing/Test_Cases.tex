@@ -840,14 +840,54 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item[] \textit{Example setup:}
-\begin{itemize}
-        \item Document A contains the exact phrase ``hello dolly''.
-        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
-        \item Document C contains only one of the words (e.g., ``hello'').
-\end{itemize}
+    \item The index contains documents with partial and complete term coverage.
 \end{itemize}
 
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
+\end{itemize}
+
+\section{Test Case: TC-FRQ-3009}
+
+\subsection*{Related Requirements}
+FRQ-3009
+
+\subsection*{Description}
+Verify that the search engine respects parentheses to control operator precedence, 
+ensuring that grouped \newline expressions are evaluated as a single unit.
+
+\subsection*{Preconditions}
+\begin{itemize} 
+  \item The search system is running and accessible. 
+  \item The search index is populated with test data specifically designed to test logic overlap. 
+  
+  \begin{itemize} 
+    \item[] \textit{Example setup:}  \begin{itemize} 
+    \item Document A contains: "cat", "dog" (Matches the AND-group). 
+    \item Document B contains: "fish" (Matches the OR-condition). 
+    \item Document C contains: "cat", "bird" (Negative test: Has "cat" but misses "dog"). 
+    \item Document D contains: "dog", "bird" (Negative test: Has "dog" but misses "cat"). 
+  \end{itemize}   \end{itemize} 
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Run Grouped Query: Submit the search query: ("cat" AND "dog") OR "fish". 
+  \item (Optional) Verify Precedence Change: Submit a contrasting query: "cat" AND ("dog" OR "fish").
+ \end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+   \item Grouped Query Result: The system must return Document A (because it has cat+dog) and Document B (because it has fish). \item Exclusion Verification: The system must NOT return Document C or Document D. Even though they contain "cat" or "dog", they do not fulfill the specific (AND) condition required by the parentheses. \item (Optional) Precedence Result: If step 2 is run, the system should only return documents that have "cat" PLUS one of the other animals (drastically changing the result list).
+ \end{itemize}
 % ==========================================================
 \section{Test Case: TC-FRQ-3010}
 
