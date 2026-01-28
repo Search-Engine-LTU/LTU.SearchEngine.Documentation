@@ -840,12 +840,19 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item[] \textit{Example setup:}
-\begin{itemize}
-        \item Document A contains the exact phrase ``hello dolly''.
-        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
-        \item Document C contains only one of the words (e.g., ``hello'').
+    \item The index contains documents with partial and complete term coverage.
 \end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
 \end{itemize}
 
 \section{Test Case: TC-FRQ-3009}
