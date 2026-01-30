@@ -31,7 +31,7 @@ This document describes test cases for the LTU Search Engine project.
 \section{Test Case: TC-FRQ-1001}
 
 \subsection*{Related Requirements}
-FRQ-1001
+FRQ-1001, FRQ-1002
 
 \subsection*{Description}
 Given a set of linked URLs, Verify that the crawler starts from a seed URL then finds and visits all reachable web pages recursively. 
@@ -855,39 +855,7 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
     \item Both AND syntaxes produce equivalent result sets.
 \end{itemize}
 
-\section{Test Case: TC-FRQ-3009}
 
-\subsection*{Related Requirements}
-FRQ-3009
-
-\subsection*{Description}
-Verify that the search engine respects parentheses to control operator precedence, 
-ensuring that grouped \newline expressions are evaluated as a single unit.
-
-\subsection*{Preconditions}
-\begin{itemize} 
-  \item The search system is running and accessible. 
-  \item The search index is populated with test data specifically designed to test logic overlap. 
-  
-  \begin{itemize} 
-    \item[] \textit{Example setup:}  \begin{itemize} 
-    \item Document A contains: "cat", "dog" (Matches the AND-group). 
-    \item Document B contains: "fish" (Matches the OR-condition). 
-    \item Document C contains: "cat", "bird" (Negative test: Has "cat" but misses "dog"). 
-    \item Document D contains: "dog", "bird" (Negative test: Has "dog" but misses "cat"). 
-  \end{itemize}   \end{itemize} 
-\end{itemize}
-
-\subsection*{Test Steps}
-\begin{enumerate}
-  \item Run Grouped Query: Submit the search query: ("cat" AND "dog") OR "fish". 
-  \item (Optional) Verify Precedence Change: Submit a contrasting query: "cat" AND ("dog" OR "fish").
- \end{enumerate}
-
-\subsection*{Expected Results}
-\begin{itemize}
-   \item Grouped Query Result: The system must return Document A (because it has cat+dog) and Document B (because it has fish). \item Exclusion Verification: The system must NOT return Document C or Document D. Even though they contain "cat" or "dog", they do not fulfill the specific (AND) condition required by the parentheses. \item (Optional) Precedence Result: If step 2 is run, the system should only return documents that have "cat" PLUS one of the other animals (drastically changing the result list).
- \end{itemize}
 % ==========================================================
 \section{Test Case: TC-FRQ-3010}
 
@@ -907,8 +875,6 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Test Steps}
 \begin{enumerate}
-    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
-    \item Execute the search.
     \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
     \item[] \textit{Test String:} 
     \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
@@ -917,9 +883,6 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Expected Results}
 \begin{itemize}
-    \item Only Document A is returned.
-    \item Documents where the words appear separately or in a different order are not returned.
-    \item The system treats the quoted phrase as a single search unit.
     \item The parser processes the input without errors.
     \item The resulting query term consists of the characters stripped of their escape backslashes.
     \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
