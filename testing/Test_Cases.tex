@@ -31,7 +31,7 @@ This document describes test cases for the LTU Search Engine project.
 \section{Test Case: TC-FRQ-1001}
 
 \subsection*{Related Requirements}
-FRQ-1001
+FRQ-1001, FRQ-1002
 
 \subsection*{Description}
 Given a set of linked URLs, Verify that the crawler starts from a seed URL then finds and visits all reachable web pages recursively. 
@@ -840,13 +840,21 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item[] \textit{Example setup:}
+    \item The index contains documents with partial and complete term coverage.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Execute a query using the keyword operator \texttt{AND}.
+    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
+\end{enumerate}
+
+\subsection*{Expected Results}
 \begin{itemize}
-        \item Document A contains the exact phrase ``hello dolly''.
-        \item Document B contains the words ``hello'' and ``dolly'' but not as a phrase (e.g., separated or in different order).
-        \item Document C contains only one of the words (e.g., ``hello'').
+    \item Only documents containing all specified terms are matched.
+    \item Both AND syntaxes produce equivalent result sets.
 \end{itemize}
-\end{itemize}
+
 
 % ==========================================================
 \section{Test Case: TC-FRQ-3010}
@@ -867,8 +875,6 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Test Steps}
 \begin{enumerate}
-    \item Enter the phrase query \texttt{"hello dolly"} into the search input.
-    \item Execute the search.
     \item \textbf{Input:} Pass a single query string containing all supported escapable characters, each preceded by a backslash, to the query parser.
     \item[] \textit{Test String:} 
     \texttt{\textbackslash+ \textbackslash- \textbackslash\& \textbackslash| \textbackslash! \textbackslash( \textbackslash) \textbackslash\{ \textbackslash\} \textbackslash[ \textbackslash] \textbackslash\^{} \textbackslash" \textbackslash\textasciitilde \textbackslash* \textbackslash? \textbackslash: \textbackslash\textbackslash}
@@ -877,9 +883,6 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 \subsection*{Expected Results}
 \begin{itemize}
-    \item Only Document A is returned.
-    \item Documents where the words appear separately or in a different order are not returned.
-    \item The system treats the quoted phrase as a single search unit.
     \item The parser processes the input without errors.
     \item The resulting query term consists of the characters stripped of their escape backslashes.
     \item \textbf{Expected Value:} \texttt{+ - \& | ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash}
