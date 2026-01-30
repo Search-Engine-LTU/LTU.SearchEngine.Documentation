@@ -857,6 +857,43 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
 
 
 % ==========================================================
+\section{Test Case: TC-FRQ-3007}
+
+\subsection*{Related Requirements}
+FRQ-3007
+
+\subsection*{Description}
+Verify that the search engine correctly supports the required (+) operator, ensuring that terms prefixed with the operator must exist in all matching documents.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search system is running and the index is populated.
+  \item The search input is empty before the test begins.
+  \item[] \textit{Test Data Setup:}
+  \begin{itemize}
+      \item Document A contains the exact phrase ``are cats'' and the word ``dog''.
+      \item Document B contains the exact phrase ``are cats'' but does \textbf{not} contain the word ``dog''.
+      \item Document C contains the word ``dog'' but does \textbf{not} contain the exact phrase ``are cats''.
+      \item Document D contains neither the phrase ``are cats'' nor the word ``dog''.
+  \end{itemize}
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+ \item Enter the query \texttt{+"are cats" dog} into the search input.
+  \item Execute the search.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item Only documents containing the exact phrase ``are cats'' are returned.
+  \item Documents A and B are returned, as both contain the required phrase.
+  \item Document C is \textbf{not} returned, as it does not contain the required phrase.
+  \item Document D is \textbf{not} returned, as it contains none of the query terms.
+  \item The optional term ``dog'' may influence ranking (e.g., Document A may appear before Document B), but result ordering is \textbf{not} required to pass this test.
+\end{itemize}
+% ==========================================================
+
 \section{Test Case: TC-FRQ-3010}
 
 \subsection*{Related Requirements}
