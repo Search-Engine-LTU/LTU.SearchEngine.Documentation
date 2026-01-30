@@ -55,8 +55,8 @@ The crawler shall restrict all crawling to domains explicitly listed in a config
   The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
   to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
-FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & TC-FRQ-1004 \\
+FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & TC-FRQ-1005 \\
 
 
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & TC-FRQ-1006 \\
@@ -120,7 +120,7 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
-            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & TC-FRQ-3010 \\
 FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
