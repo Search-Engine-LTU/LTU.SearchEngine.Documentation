@@ -376,44 +376,6 @@ and that the crawler allows crawling of newly added domains without requiring co
 
 % ==========================================================
 
-% ==========================================================
-\section{Test Case: TC-FRQ-1009}
-
-\subsection*{Related Requirements}
-FRQ-1009
-
-\subsection*{Description}
-Verify that the crawler detects hyperlinks that point to PDF files and
-adds those PDF documents to the index so that they become searchable.
-
-\subsection*{Preconditions}
-\begin{itemize}
-  \item Crawler component is operational
-  \item Indexing component is operational
-  \item Crawling of external resources (PDF files) is permitted
-  \item At least one HTML page exists that contains a hyperlink to a PDF file
-  \item The search index is initially empty.
-\end{itemize}
-
-\subsection*{Test Steps}
-\begin{enumerate}
-  \item Configure the crawler with the HTML page as the seed URL.
-  \item Start the crawling and indexing process.
-  \item Allow the crawler to fetch the HTML page.
-  \item Detect and follow the hyperlink to the linked PDF file.
-  \item Allow the indexing component to process the discovered PDF file.
-  \item Inspect the contents of the search index.
-\end{enumerate}
-
-\subsection*{Expected Results}
-\begin{itemize}
-  \item The crawler detects the hyperlink pointing to the PDF document.
-  \item The PDF document is scheduled for crawling or downloading.
-  \item The PDF document is added to the index.
-  \item Terms extracted from the PDF document become searchable.
-  \item No errors occur as a result of handling the PDF file.
-\end{itemize}
-% ==========================================================
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1009-A (PDF Link Detection Only)}
@@ -423,7 +385,6 @@ FRQ-1009
 
 \subsection*{Description}
 Verify that the crawler detects hyperlinks in HTML pages that point to PDF files
-(e.g., URLs ending with \texttt{.pdf} or served with \texttt{Content-Type: application/pdf})
 and registers them as discovered PDF resources.
 
 \subsection*{Preconditions}
@@ -431,7 +392,7 @@ and registers them as discovered PDF resources.
   \item Crawler component is operational.
   \item Crawling of external resources is permitted.
   \item A test HTML page exists containing at least one hyperlink to a PDF file.
-  \item The crawler has logging/telemetry enabled OR exposes a list/queue of discovered URLs.
+  \item Robots.txt and domain allowlist permit access to both the HTML page and the PDF.
 \end{itemize}
 
 \subsection*{Test Data}
@@ -445,18 +406,61 @@ and registers them as discovered PDF resources.
   \item Configure the crawler with the HTML page as the seed URL.
   \item Start crawling.
   \item Allow the crawler to fetch and parse the HTML page.
-  \item Observe the crawler's discovered links output (e.g., logs, discovered-URL list, or crawl queue).
+  \item Observe the crawler's discovered links output.
 \end{enumerate}
 
 \subsection*{Expected Results}
 \begin{itemize}
-  \item The crawler identifies the hyperlink target as a PDF resource.
-  \item The discovered URL \texttt{https://example.test/docs/report.pdf} is recorded as a PDF link
-        (e.g., tagged as \texttt{PDF}, added to a PDF-discovery list, or enqueued to a PDF fetch queue).
-  \item No indexing step is required for this test case; the pass criterion is detection/registration only.
-  \item No errors occur during HTML parsing and link classification.
+  \item The crawler classifies the discovered URL as a PDF resource.
+  \item The URL is tagged as PDF and enqueued for PDF processing.
+  \item No indexing is performed in this test case.
+\end{itemize}
+
+% ==========================================================
+\section{Test Case: TC-FRQ-1009-B (PDF Indexing)}
+
+\subsection*{Related Requirements}
+FRQ-1009
+
+\subsection*{Description}
+Verify that PDF documents discovered by the crawler are downloaded by the indexing
+component, that their textual content is extracted, and that the documents become
+searchable in the index.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item Crawler and indexing components are operational.
+  \item PDF parsing and text extraction is enabled.
+  \item The PDF is text-based (not scanned, no OCR required).
+  \item Robots.txt and domain allowlist permit crawling of the HTML and the PDF.
+  \item The search index is cleared before the test or a dedicated temporary test index is used.
+\end{itemize}
+
+\subsection*{Test Data}
+\begin{itemize}
+  \item Seed URL: HTML page containing a hyperlink to \texttt{sample.pdf}.
+  \item PDF file contains unique term: \texttt{InformationRetrievalTestTerm}.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Configure the crawler with the HTML page as the seed URL.
+  \item Start the crawling process.
+  \item Allow the crawler to discover the PDF link.
+  \item Allow the indexing component to download and parse the PDF.
+  \item Wait until crawl and indexing queues are empty.
+  \item Perform a search for the unique term.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item The PDF is downloaded and parsed successfully.
+  \item Extracted text is stored in the inverted index.
+  \item Searching for \texttt{InformationRetrievalTestTerm} returns the PDF document exactly once.
+  \item No crawl, parse, or index errors are logged.
 \end{itemize}
 % ==========================================================
+
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1010}
