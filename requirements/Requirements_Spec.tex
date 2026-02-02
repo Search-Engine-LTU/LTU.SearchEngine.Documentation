@@ -55,8 +55,8 @@ The crawler shall restrict all crawling to domains explicitly listed in a config
   The system shall identify crawling targets by their domain name (e.g., ltu.se) rather than resolved IP addresses 
   to ensure consistent behavior if underlying hosting or IP mappings change. & TC-FRQ-1003-A \newline TC-FRQ-1003-B\\
 
-FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & \\
-FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & \\
+FRQ-1004 & The crawler shall log the active rate limiting configuration values (\texttt{maxConcurrencyPerDomain}, \texttt{minDelayMs}) at startup for verification and debugging purposes. & TC-FRQ-1004 \\
+FRQ-1005 & The crawler must parse and adhere to the ``robots.txt'' file of the target domain. & TC-FRQ-1005 \\
 
 
 FRQ-1006 & The crawler shall avoid crawling the same URL more than once per execution. & TC-FRQ-1006 \\
@@ -80,7 +80,7 @@ FRQ-2002 & The system shall store indexed terms together with page references (i
 FRQ-2003 & The system shall support incremental updates of the index. & TC-FRQ-2003 \\
 FRQ-2004 & The system shall ignore non-textual content (images, videos, binaries). & TC-FRQ-2001\\
 FRQ-2005 & The system shall enqueue a URL in the crawl queue before any fetch attempt is performed. & TC-FRQ-2005 \\
-FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & TC-FRQ-2005\\
+FRQ-2006 & The system shall create a page record only after a fetch attempt has been completed, regardless of fetch success. & TC-FRQ-2006 \\
 FRQ-2007 & The system shall store indexed terms in a global, language-normalized form. & \\
 
 % --- SEARCHING (3xxx) ---
@@ -107,7 +107,7 @@ Syntax: \newline
 
 
 FRQ-3007 & Required Term Operator. The system shall support the required (+) operator, indicating that the term must exist in a matching document. \newline
-            (e.g, If the query searches for ”+"are cats" dog”, results must include items containing ”are cats” and can but does not have to contain ”dog”). & \\
+            (e.g, If the query searches for ”+"are cats" dog”, results must include items containing ”are cats” and can but does not have to contain ”dog”). & TC-FRQ-3007\\
 
 FRQ-3008 & Exclusion Logic (NOT). The system shall support operators to exclude documents containing specific terms. \newline
 Syntax: \newline
@@ -120,7 +120,7 @@ FRQ-3009 & Grouping with Parentheses. The system shall support grouping of query
 
 
 FRQ-3010 & Special Character Escaping. The system shall support escaping of special query characters using a backslash (\textbackslash). \newline
-            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & \\
+            Supported Escapable Characters: \newline \texttt{+ - \&\& || ! ( ) \{ \} [ ] \^{} " \textasciitilde{} * ? : \textbackslash} & TC-FRQ-3010 \\
 FRQ-3011 & Literal Search with Escaping. The system shall correctly interpret escaped characters as literal values within a query. & \\
 
 
