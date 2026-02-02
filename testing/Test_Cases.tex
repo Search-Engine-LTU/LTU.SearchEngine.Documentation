@@ -376,44 +376,6 @@ and that the crawler allows crawling of newly added domains without requiring co
 
 % ==========================================================
 
-% ==========================================================
-\section{Test Case: TC-FRQ-1009}
-
-\subsection*{Related Requirements}
-FRQ-1009
-
-\subsection*{Description}
-Verify that the crawler detects hyperlinks that point to PDF files and
-adds those PDF documents to the index so that they become searchable.
-
-\subsection*{Preconditions}
-\begin{itemize}
-  \item Crawler component is operational
-  \item Indexing component is operational
-  \item Crawling of external resources (PDF files) is permitted
-  \item At least one HTML page exists that contains a hyperlink to a PDF file
-  \item The search index is initially empty.
-\end{itemize}
-
-\subsection*{Test Steps}
-\begin{enumerate}
-  \item Configure the crawler with the HTML page as the seed URL.
-  \item Start the crawling and indexing process.
-  \item Allow the crawler to fetch the HTML page.
-  \item Detect and follow the hyperlink to the linked PDF file.
-  \item Allow the indexing component to process the discovered PDF file.
-  \item Inspect the contents of the search index.
-\end{enumerate}
-
-\subsection*{Expected Results}
-\begin{itemize}
-  \item The crawler detects the hyperlink pointing to the PDF document.
-  \item The PDF document is scheduled for crawling or downloading.
-  \item The PDF document is added to the index.
-  \item Terms extracted from the PDF document become searchable.
-  \item No errors occur as a result of handling the PDF file.
-\end{itemize}
-% ==========================================================
 
 % ==========================================================
 \section{Test Case: TC-FRQ-1009-A (PDF Link Detection Only)}
