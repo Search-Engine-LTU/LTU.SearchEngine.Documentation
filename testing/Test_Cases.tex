@@ -776,6 +776,8 @@ Verify that the search engine correctly handles phrase queries consisting of mul
     \end{itemize}
 \end{itemize}
 
+
+
 % ==========================================================
 \section{Test Case: TC-FRQ-3004}
 
@@ -844,17 +846,6 @@ Verify that the search engine applies Boolean AND semantics, matching only docum
 \subsection*{Preconditions}
 \begin{itemize}
     \item The search system is running and the index is populated.
-    \item The index contains documents with partial and complete term coverage.
-\end{itemize}
-
-\subsection*{Test Steps}
-\begin{enumerate}
-    \item Execute a query using the keyword operator \texttt{AND}.
-    \item Execute an equivalent query using the symbol operator \texttt{\&\&}.
-\end{enumerate}
-
-\subsection*{Expected Results}
-\begin{itemize}
     \item The index contains documents with partial and complete term coverage.
 \end{itemize}
 
