@@ -776,7 +776,18 @@ Verify that the search engine correctly handles phrase queries consisting of mul
     \end{itemize}
 \end{itemize}
 
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Enter the query \texttt{"hello dolly"} (including quotation marks) into the search input.
+    \item Execute the search.
+\end{enumerate}
 
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only Document A is returned, as it is the only one containing the exact phrase with correct word order and adjacency.
+    \item Documents B and C are NOT returned[cite: 195, 196].
+    \item The search handles exact word boundaries and sequence correctly[cite: 192].
+\end{itemize}
 
 % ==========================================================
 \section{Test Case: TC-FRQ-3004}
