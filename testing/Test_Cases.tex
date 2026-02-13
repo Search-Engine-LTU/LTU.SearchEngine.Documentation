@@ -115,6 +115,7 @@ of fetch operations during a controlled crawl execution.
   \item A set of URLs belonging to the same domain is provided as crawl input.
 \end{itemize}
 
+\subsection*{Test Steps}
 \begin{enumerate}
   \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
   \item Provide the crawler with multiple URLs belonging to the same domain.
@@ -122,6 +123,8 @@ of fetch operations during a controlled crawl execution.
   \item Record the start time and concurrency level for each fetch operation.
 \end{enumerate}
 
+
+\subsection*{Expected Results}
 \begin{itemize}
   \item The maximum number of simultaneous fetch operations for the domain does not exceed 
         \textit{maxConcurrencyPerDomain}.
@@ -500,13 +503,6 @@ to the crawl frontier or visited, even if the crawler downloads the PDF file.
   \item No errors or crashes occur as a result of encountering PDF links.
 \end{itemize}
 
-\subsection*{Expected Results}
-\begin{itemize}
-  \item Only visible textual content is extracted.
-  \item Images, videos, scripts, and binary resources are ignored.
-  \item No non-textual data is stored in the search index.
-  \item Extracted text is suitable for term-based indexing.
-\end{itemize}
 % ==========================================================
 
 % ==========================================================
