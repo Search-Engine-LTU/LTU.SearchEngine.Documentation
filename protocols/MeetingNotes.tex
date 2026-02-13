@@ -17,10 +17,227 @@
 \begin{document}
 
 \maketitle
+
+
+% ========================================== 
+%           MEETING START 
+% ========================================== 
+\section*{Meeting: 2026-02-10 (Daily Stand-up)} 
+
+\textbf{Time:} 13:10 \\ 
+\textbf{Purpose:} Daily synchronization and status updates \\ 
+\textbf{Attendees:} Nattarintra, Emma, Jean-Paul 
+
+\subsection*{Project Discussion} 
+Discussions around the testing process.
+
+
+\subsection*{Daily Updates} 
+Each present member provided updates on work completed since the last meeting and outlined tasks to be addressed next. 
+
+
+% ========================================== 
+%           MEETING END 
+% ========================================== 
+
+\newpage
+
+% ========================================== 
+%           MEETING START 
+% ========================================== 
+\section*{Meeting: 2026-02-09 (Daily Stand-up)} 
+
+\textbf{Time:} 13:00 \\ 
+\textbf{Purpose:} Daily synchronization and status updates \\ 
+\textbf{Attendees:} Nattarintra, Emma, Jean-Paul 
+  
+\subsection*{Daily Updates} 
+Each present member provided updates on work completed since the last meeting and outlined tasks to be addressed next. 
+
+  
+% ========================================== 
+%           MEETING END 
+% ========================================== 
+
+\newpage
+
+% ========================================== 
+%           MEETING START 
+% ========================================== 
+\section*{Meeting: 2026-02-06 (Daily Stand-up)} 
+
+\textbf{Time:} 13:05 \\ 
+\textbf{Purpose:} Daily synchronization and status updates \\ 
+\textbf{Attendees:} Nattarintra, Emma, Linnea, Jean-Paul 
+  
+
+\subsection*{Project Discussion} 
+Discussions around the new state of the diagrams, and around the fact that no API will be used anymore.  
+
+\textbf{Emma:} \\
+Limited progress today. Worked on the diagram showing the flow from the Indexer to the Crawler, including a flow diagram. Updated the existing crawler diagram. Will create issues for the Indexer.
+
+\vspace{0.3cm}
+
+\textbf{Linnea:} \\
+Completed the an issue with related tests and is preparing a pull request. Revising the plan for the query part since the group working on it is now smaller.
+
+\vspace{0.3cm}
+
+\textbf{Natta:} \\
+Limited progress. Created issues related to dummy data for the index section.
+
+\vspace{0.3cm}
+
+\textbf{Jean-Paul:} \\
+Working on establishing the foundation for dependency injection (DI) and implementing \texttt{CrawlerSettingsLoader} via \texttt{appsettings}.
+  
+
+  
+% ========================================== 
+%           MEETING END 
+% ========================================== 
+
+\newpage
+
+% ========================================== 
+%           MEETING START 
+% ========================================== 
+
+\section*{Meeting: 2026-02-04 (Daily Stand-up)} 
+
+\textbf{Date:} February 4 \\ 
+\textbf{Time:}  13:30\\ 
+\textbf{Purpose:} Daily synchronization and status updates \\ 
+\textbf{Attendees:} Nattarintra, Linnea, Jean-Paul 
+
+\subsection*{Daily Updates} 
+
+Each present member provided updates on work completed since the last meeting and outlined tasks to be addressed next. 
+
+\begin{itemize}
+    \item \textbf{Nattarintra:} Updated the diagram. Created issues for the Index team. Planning a discussion with the Query team.
+    \item \textbf{Linnea:} Created issues for the Query series and updated the diagram. Will begin working on the issues.
+    \item \textbf{Jean-Paul:} Shared the insight that PDF files must be parsed and handled differently, 
+    since they do not have the same structure as HTML files—something that had previously gone unnoticed. He performed research on this and will continue working on it today.
+\end{itemize}
+
+\subsection*{Project Discussion} 
+
+\begin{itemize}
+    \item \textbf{All:} Discussed issue handling and how to manage issues within the project.
+\end{itemize}
+
+% ========================================== 
+%           MEETING END 
+% ========================================== 
+\newpage
+
+% ========================================== 
+%           MEETING START 
+% ========================================== 
+\section*{Meeting: 2026-02-02 (Daily Stand-up)} 
+
+\textbf{Time:} 13:00 \\ 
+\textbf{Purpose:} Daily synchronization and status updates \\ 
+\textbf{Attendees:} Nattarintra, Emma, Jean-Paul 
+  
+
+\subsection*{Project Discussion} 
+Emma presented the current state a sequence diagram, illustrating the flow from the crawler to the indexer. The diagram is 
+not yet complete but provides an overview of the intended process. 
+
+The group discussed the structure and placement of words
+and meta-content in \texttt{CrawlResults}, and how this information will relate to PageRank calculations and TF/IDF processing.  
+
+\subsection*{Daily Updates} 
+Each present member provided updates on work completed since the last meeting and outlined tasks to be addressed next.   
+
+  
+% ========================================== 
+%           MEETING END 
+% ========================================== 
+
+\newpage 
 % ==========================================
 %           MEETING START
 % ==========================================
-\section{2026-01-27 (Daily Stand-up) }
+\section*{2026-01-30 (Supervisor meeting) }
+
+\textbf{Time:} 10:00 \\
+\textbf{Purpose:} Meeting with Malte \\
+\textbf{Attendees:} 
+Emma, Jean-Paul, Nattarintra
+
+\subsection*{Discussion and Notes}
+Discussion Points 
+
+Pipeline for indexer looks good.
+The frontend team was not present, and Malte will contact them separately to review their diagrams during the coming week.
+
+1. Process: HTML Content for Crawlers
+The primary focus is on how to effectively pass content to the crawler.
+
+Goal: Ensure that no HTML tags or specific information are missed during the process.
+
+Key Question: How should the implementation be designed to ensure full data coverage?
+
+2. Indexing and Data Representation
+Discussion regarding the data structure to optimize retrieval performance.
+
+Goal: Determine how to represent the data so it can be accessed quickly.
+
+Next meeting we should talk to Malte divided in our teams:
+
+Frontend, Crawler and Indexer
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+\section*{2026-01-30 (Daily-Stand-Up) }
+
+\textbf{Time:} 09:30 \\
+\textbf{Purpose:}  Daily synchronization and status updates \\
+\textbf{Attendees:} 
+Emma, Jean-Paul, Nattarintra
+
+\subsection*{Discussion and Notes}
+Discussion Points 
+
+Short daily stand-up meeting prior to the meeting with Malte, where we reviewed our progress and identified any questions to bring up at the 10:00 meeting.
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+\section*{2026-01-29 (Daily Stand-up) }
+
+\textbf{Time:} 13:00 \\
+\textbf{Purpose:} Daily synchronization and status updates
+
+\textbf{Attendees:} \\
+Emma, Jean-Paul, Nattarintra, Cilla, Linnea
+
+\subsection*{Discussion and Notes}
+Team Updates
+
+Frontend: Index and Plant diagrams are done. Cilla will handle the integration between Frontend and Index (cross-team role).
+
+Index: Nattarintra is investigating Lucene.Net and will email Malte about the two indexer diagram proposals.
+
+Crawler: HTML test pages were started yesterday; the team is continuing to implement new code today.
+
+Next Meeting: Tomorrow at 13:00.
+
+\newpage
+
+% ==========================================
+%           MEETING START
+% ==========================================
+\section*{2026-01-27 (Daily Stand-up) }
 
 \textbf{Time:} 13:10 \\
 \textbf{Purpose:} Daily synchronization and status updates
