@@ -115,6 +115,7 @@ of fetch operations during a controlled crawl execution.
   \item A set of URLs belonging to the same domain is provided as crawl input.
 \end{itemize}
 
+\subsection*{Test Steps}
 \begin{enumerate}
   \item Initialize the crawler using the test-controlled time source and the instrumented page fetcher.
   \item Provide the crawler with multiple URLs belonging to the same domain.
@@ -122,6 +123,8 @@ of fetch operations during a controlled crawl execution.
   \item Record the start time and concurrency level for each fetch operation.
 \end{enumerate}
 
+
+\subsection*{Expected Results}
 \begin{itemize}
   \item The maximum number of simultaneous fetch operations for the domain does not exceed 
         \textit{maxConcurrencyPerDomain}.
@@ -500,13 +503,6 @@ to the crawl frontier or visited, even if the crawler downloads the PDF file.
   \item No errors or crashes occur as a result of encountering PDF links.
 \end{itemize}
 
-\subsection*{Expected Results}
-\begin{itemize}
-  \item Only visible textual content is extracted.
-  \item Images, videos, scripts, and binary resources are ignored.
-  \item No non-textual data is stored in the search index.
-  \item Extracted text is suitable for term-based indexing.
-\end{itemize}
 % ==========================================================
 
 % ==========================================================
@@ -776,6 +772,19 @@ Verify that the search engine correctly handles phrase queries consisting of mul
     \end{itemize}
 \end{itemize}
 
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item Enter the query \texttt{"hello dolly"} (including quotation marks) into the search input.
+    \item Execute the search.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item Only Document A is returned, as it is the only one containing the exact phrase with correct word order and adjacency.
+    \item Documents B and C are NOT returned[cite: 195, 196].
+    \item The search handles exact word boundaries and sequence correctly[cite: 192].
+\end{itemize}
+
 % ==========================================================
 \section{Test Case: TC-FRQ-3004}
 
@@ -896,6 +905,40 @@ Verify that the search engine correctly supports the required (+) operator, ensu
   \item Document D is \textbf{not} returned, as it contains none of the query terms.
   \item The optional term ``dog'' may influence ranking (e.g., Document A may appear before Document B), but result ordering is \textbf{not} required to pass this test.
 \end{itemize}
+
+\section{Test Case: TC-FRQ-3009}
+
+\subsection*{Related Requirements}
+FRQ-3009
+
+\subsection*{Description}
+Verify that the search engine respects parentheses to control operator precedence, 
+ensuring that grouped \newline expressions are evaluated as a single unit.
+
+\subsection*{Preconditions}
+\begin{itemize} 
+  \item The search system is running and accessible. 
+  \item The search index is populated with test data specifically designed to test logic overlap. 
+  
+  \begin{itemize} 
+    \item[] \textit{Example setup:}  \begin{itemize} 
+    \item Document A contains: "cat", "dog" (Matches the AND-group). 
+    \item Document B contains: "fish" (Matches the OR-condition). 
+    \item Document C contains: "cat", "bird" (Negative test: Has "cat" but misses "dog"). 
+    \item Document D contains: "dog", "bird" (Negative test: Has "dog" but misses "cat"). 
+  \end{itemize}   \end{itemize} 
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item Run Grouped Query: Submit the search query: ("cat" AND "dog") OR "fish". 
+  \item (Optional) Verify Precedence Change: Submit a contrasting query: "cat" AND ("dog" OR "fish").
+ \end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+   \item Grouped Query Result: The system must return Document A (because it has cat+dog) and Document B (because it has fish). \item Exclusion Verification: The system must NOT return Document C or Document D. Even though they contain "cat" or "dog", they do not fulfill the specific (AND) condition required by the parentheses. \item (Optional) Precedence Result: If step 2 is run, the system should only return documents that have "cat" PLUS one of the other animals (drastically changing the result list).
+ \end{itemize}
 % ==========================================================
 
 \section{Test Case: TC-FRQ-3010}
