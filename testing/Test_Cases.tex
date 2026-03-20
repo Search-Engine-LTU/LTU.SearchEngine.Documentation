@@ -974,3 +974,44 @@ to ensure that when these characters are preceded by a backslash, they are inter
 \end{itemize}
 
 \end{document}
+
+% ==========================================================
+
+\section{Test Case: TC-NFRQ-6006}
+
+\subsection*{Related Requirements}
+FRQ-6006, FRQ-1004
+
+\subsection*{Description}
+Verify that rate limiting parameters (such as minimum delay between requests and maximum concurrency) 
+can be configured via a configuration file and that these settings are correctly applied by 
+the system after a restart.
+
+\subsection*{Preconditions}
+\begin{itemize}
+    \item Crawler componen is operational.
+    \item The syetem uses a configuration file (e.g., appsettings.json) to store MinDelayMs and 
+    MaxConcurrencyPerDomain.
+    \item A test webserver (or mock) is available to log the arriving time of incoming HTTP request.
+    \item Access to system logs is enabled to verify internal state of the crawler.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+    \item \textbf{Initial Configuration:} Set minDelayMs to 1000 (1 second) in the Configuration file.
+    \item \textbf{System Restart:} Restart the application to ensure that the configuration is loaded.
+    \item \textbf{Execute Crawl:} Issue a crawl command for a seed URL that contains at least three internal links on the same domain.
+    \item \textbf{Measure Timing:} Record the timestamps of the HTTP requests sebt by the crawler.
+    \item \textbf{Re-Configure:} Change MinDelayMs to 100 (0.1 seconds) in the configuration file.
+    \item \textbf{System Restart:} Restart the application.
+    \item \textbf{Execute Second Crawl:} Repeat the crawl process and record the timestamps.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+    \item \textbf{Initial Run:} The time difference between consecutive requests to the same domain is consistently >= 1000 ms. 
+    \item \textbf{Second Run:} The time difference between consecutive requests to the same domain is consistently >= 100 ms. 
+    \item \textbf{Verification:} The system correctly reads the values from the configuration file without requiring code changes or recompilation. 
+\end{itemize}
+
+\end{document}
