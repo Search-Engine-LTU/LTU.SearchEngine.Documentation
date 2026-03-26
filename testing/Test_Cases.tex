@@ -679,7 +679,42 @@ Verify, at a unit level, that the logic layer requests a page record creation st
     \item No calls to the repository are made before the fetch attempt is initiated.
 \end{itemize}
 
+
 % ==========================================================
+
+\section{Test Case: TC-FRQ-2007}
+
+\subsection*{Related Requirements}
+FRQ-2007
+
+\subsection*{Description}
+Verify, at a unit level, that the indexing component normalizes textual terms into a global, language-neutral format before they are committed to the inverted index. This ensures that search queries are case-insensitive and insensitive to morphological variations (e.g., stemming).
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The test isolates the \textbf{IndexerService} (System Under Test).
+  \item External dependencies (\textit{ITermRepository}, \textit{ILanguageAnalyzer}) are replaced with \textbf{Mock Objects}.
+  \item The system is configured with a standard normalization pipeline (Lowercasing, Stemming, Stop-word removal).
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Arrange (Normalization):} Prepare a set of input strings with mixed casing and different grammatical forms (e.g., "Running", "RUN", "runs").
+  \item \textbf{Act:} Call the index method on the \textit{IndexerService} with the prepared strings and a target Page ID.
+  \item \textbf{Assert (Case Insensitivity):} Verify that "Running" and "run" result in the exact same term being sent to \textit{MockTermRepository}.
+  \item \textbf{Assert (Stemming):} Verify that morphological variations (e.g., "crawled", "crawling") are reduced to their base form (e.g., "crawl") before storage.
+  \item \textbf{Arrange (Noise Reduction):} Prepare a string containing common stop-words (e.g., "the", "is", "and").
+  \item \textbf{Act:} Call the index method with the noise-heavy string.
+  \item \textbf{Assert (Filtering):} Verify that the \textit{MockTermRepository.StoreTerm()} method is not called for identified stop-words, ensuring only significant terms are indexed.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item All indexed terms are stored in lowercase, stripped of language-specific suffixes (stemmed), and filtered for noise.
+  \item Redundant grammatical variations of the same word map to a single, normalized entry in the global index.
+\end{itemize}
+% ==========================================================
+
 \section{Test Case: TC-FRQ-3001}
 
 \subsection*{Related Requirements}
